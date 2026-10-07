@@ -96,10 +96,13 @@ a{color:var(--blue)}.hidden{display:none}
 const HEROES=[["black-panther","Black Panther"],["captain-america","Captain America"],["thor","Thor"],["hulk","Hulk"],["doctor-strange","Doctor Strange"],["spider-man","Spider-Man"],["iron-man","Iron Man"]];
 const $=s=>document.querySelector(s);const origin=location.origin;
 const state={theme:"dark",digits:7,heroes:[],created:null};
+const KEY="herocount.v1";
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}};
+const restore=()=>{try{const r=JSON.parse(localStorage.getItem(KEY)||"null");if(!r)return;if(["dark","light","auto"].includes(r.theme))state.theme=r.theme;if(r.digits>=3&&r.digits<=9)state.digits=+r.digits;if(Array.isArray(r.heroes))state.heroes=r.heroes.filter(h=>HEROES.some(x=>x[0]===h));if(typeof r.created==="string"&&/^[a-z0-9][a-z0-9_-]{0,38}$/.test(r.created))state.created=r.created}catch{}};
 $("#prefix").textContent=location.host+"/c/";
 function qs(extra={}){const p=new URLSearchParams();if(state.theme!=="dark")p.set("theme",state.theme);if(state.digits!==7)p.set("digits",state.digits);if(state.heroes.length)p.set("heroes",state.heroes.join(","));for(const[k,v]of Object.entries(extra))p.set(k,v);const s=p.toString().replace(/%2C/g,",");return s?"?"+s:""}
 function renderChips(){const box=$("#heroes");box.innerHTML="";for(const[id,name]of HEROES){const i=state.heroes.indexOf(id);const b=document.createElement("button");b.className="chip";b.type="button";b.setAttribute("aria-pressed",i>=0);b.innerHTML=(i>=0?"<b>"+(i+1)+"</b>":"")+name;b.onclick=()=>{const j=state.heroes.indexOf(id);j>=0?state.heroes.splice(j,1):state.heroes.push(id);update()};box.appendChild(b)}}
-function update(){renderChips();$("#preview").src="/preview.svg"+qs();$("#dv").textContent=state.digits;if(state.created)snippets()}
+function update(){save();renderChips();$("#preview").src="/preview.svg"+qs();$("#dv").textContent=state.digits;if(state.created)snippets()}
 function snippets(){const id=state.created,base=origin+"/c/"+id+".svg";
  const q=(t)=>{const p=new URLSearchParams();if(t!=="dark")p.set("theme",t);if(state.digits!==7)p.set("digits",state.digits);if(state.heroes.length)p.set("heroes",state.heroes.join(","));const s=p.toString().replace(/%2C/g,",");return base+(s?"?"+s:"")};
  $("#md").textContent=`[![Visitors](${q(state.theme)})](${origin})`;
@@ -110,9 +113,15 @@ $("#digits").oninput=e=>{state.digits=+e.target.value;update()};
 $("#create").onclick=async()=>{const msg=$("#msg"),btn=$("#create"),id=$("#id").value.trim().toLowerCase();msg.className="msg";msg.textContent="";if(!id){msg.className="msg err";msg.textContent="Type an id first.";return}
  btn.disabled=true;try{const r=await fetch("/api/create",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({id})});const j=await r.json();
   if(r.ok){state.created=j.id;msg.className="msg ok";msg.textContent=`Created. Your counter starts at 0 at ${location.host}/c/${j.id}.svg`;snippets();$("#out").scrollIntoView({behavior:"smooth",block:"nearest"})}
+  else if(r.status===409){msg.className="msg err";msg.textContent="That id is already taken. If it's yours (for example you created it earlier), you can use it again. The count is shared with anyone using this id. ";const b=document.createElement("button");b.type="button";b.textContent="Use existing id";b.style.marginTop="8px";b.onclick=()=>useExisting(id);msg.appendChild(document.createElement("br"));msg.appendChild(b)}
   else{msg.className="msg err";msg.textContent=j.error||"Something went wrong."}}catch{msg.className="msg err";msg.textContent="Network error. Try again."}btn.disabled=false};
+async function useExisting(id){const msg=$("#msg");try{const r=await fetch("/c/"+id+".json");const j=await r.json();if(r.ok){state.created=j.id;msg.className="msg ok";msg.textContent=`Using existing counter "${j.id}" (current count: ${j.count}).`;snippets();save();$("#out").scrollIntoView({behavior:"smooth",block:"nearest"})}else{msg.className="msg err";msg.textContent=j.error||"Could not load that id."}}catch{msg.className="msg err";msg.textContent="Network error. Try again."}}
 $("#id").addEventListener("keydown",e=>{if(e.key==="Enter")$("#create").click()});
 document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{const t=$("#"+b.dataset.copy).textContent;try{await navigator.clipboard.writeText(t);const o=b.textContent;b.textContent="Copied";setTimeout(()=>b.textContent=o,1200)}catch{}});
+restore();
+document.querySelectorAll("#theme button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.v===state.theme));
+$("#digits").value=state.digits;
+if(state.created){$("#id").value=state.created;$("#msg").className="msg ok";$("#msg").textContent=`Welcome back. Your counter "${state.created}" is ready below.`}
 update();
 </script>
 </body>
