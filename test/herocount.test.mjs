@@ -17,6 +17,13 @@ test("digits clamp 3..9 and pad", () => {
 });
 test("theme auto adds media query", () => assert.match(renderCounter(1, { theme: "auto" }), /prefers-color-scheme:light/));
 test("theme clear has no background plate", () => { const c = renderCounter(1, { theme: "clear" }); assert.ok(!c.includes('rx="14"')); assert.equal(parseOptions(new URLSearchParams("theme=clear")).theme, "clear"); });
+test("every counter carries the kevish.dev credit, in every theme", () => {
+  for (const theme of ["dark", "light", "auto", "clear"]) {
+    const svg = renderCounter(42, { theme, digits: 3 });
+    assert.match(svg, /data-credit="kevish\.dev"/, theme);
+    assert.match(svg, /made by Kevish/, theme);
+  }
+});
 test("ids: valid, invalid, reserved", () => {
   assert.equal(normalizeId("Kevish-Dev").id, "kevish-dev");
   for (const bad of ["", "-x", "a b", "a/b", "../x", "x".repeat(40), "<script>", "api"]) assert.equal(normalizeId(bad).ok, false, bad);

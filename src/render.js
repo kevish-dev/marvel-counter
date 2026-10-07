@@ -257,6 +257,29 @@ const CSS = `
 @media (prefers-reduced-motion:reduce){*{animation:none!important}.web,.webtip,.bolt,.glint,.blink,.rage,.twinkle{opacity:0}}
 `.replace(/\n/g, "");
 
+// ---- credit: tiny pixel-font "by kevish.dev" baked into every counter ----------
+const GLYPH = {
+  a: "010101111101101", b: "110101110101110", c: "011100100100011", d: "110101101101110", e: "111100110100111",
+  h: "101101111101101", i: "111010010010111", k: "101101110101101", n: "110101101101101", s: "011100010001110",
+  v: "101101101101010", y: "101101010010010", ".": "000000000000010", " ": "000000000000000", b_: "",
+};
+const CREDIT_TEXT = "by kevish.dev";
+function creditSvg(W, H, theme) {
+  const px = 2, gap = 1, cols = 3, rows = 5;
+  const fill = theme === "light" ? "#57606a" : "#8b93a1";
+  const adv = (cols + gap) * px;
+  const width = CREDIT_TEXT.length * adv - gap * px;
+  const x0 = W - 16 - width, y0 = H - 17;
+  let d = "";
+  [...CREDIT_TEXT].forEach((ch, i) => {
+    const g = GLYPH[ch];
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      if (g[r * cols + c] === "1") d += `M${x0 + i * adv + c * px} ${y0 + r * px}h${px}v${px}h-${px}z`;
+    }
+  });
+  return `<path data-credit="kevish.dev" d="${d}" fill="${fill}" opacity=".85"/>`;
+}
+
 export const HERO_IDS = HEROES.map((h) => h.name);
 const ALIASES = { panther: "black-panther", bp: "black-panther", cap: "captain-america", captain: "captain-america", strange: "doctor-strange", doctor: "doctor-strange", spidey: "spider-man", spiderman: "spider-man", ironman: "iron-man", iron: "iron-man" };
 export const resolveHero = (n) => { const k = String(n).toLowerCase().trim(); const id = ALIASES[k] || k; return HEROES.find((h) => h.name === id); };
@@ -268,7 +291,7 @@ export function renderCounter(count, { theme = "dark", digits = 7, heroes } = {}
   digits = Math.min(9, Math.max(3, Math.floor(Number(digits)) || 7));
   const n = Math.max(0, Math.floor(Number(count) || 0));
   const s = String(n).padStart(digits, "0").slice(-digits);
-  const W = (CW * digits + PAD * 2) * U, H = (CH + PAD * 2) * U;
+  const W = (CW * digits + PAD * 2) * U, H = (CH + PAD * 2 + 1) * U;
   const cast = (heroes || []).map(resolveHero).filter(Boolean);
   const lineup = cast.length ? cast : HEROES;
   const auto = theme === "auto";
@@ -284,9 +307,9 @@ export function renderCounter(count, { theme = "dark", digits = 7, heroes } = {}
       `<g class="idle" style="animation-delay:${(-i * 0.37).toFixed(2)}s">` + layers.map((l) => l.svg()).join("") + `<g>${signSvg(s[i], light ? "light" : "dark")}</g>` + overs.join("") + `</g></g>`);
   }
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" shape-rendering="crispEdges" role="img" aria-label="Visitor count ${n}">` +
-    `<title>Visitor count: ${n}</title><style>${CSS}${auto ? AUTO_CSS : ""}</style>` +
+    `<title>Visitor count: ${n}</title><desc>HeroCount, made by Kevish (https://kevish.dev)</desc><style>${CSS}${auto ? AUTO_CSS : ""}</style>` +
     (theme === "clear" ? "" : `<rect width="${W}" height="${H}" rx="14" ${bgAttrs}/><rect x=".5" y=".5" width="${W - 1}" height="${H - 1}" rx="14" fill="none" ${bdAttrs}/>`) +
-    cells.join("") + `</svg>`;
+    cells.join("") + creditSvg(W, H, light ? "light" : "dark") + `</svg>`;
 }
 
 // Small SVG shown for unknown ids (no storage write, cacheable).

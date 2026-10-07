@@ -32,6 +32,7 @@ export function sendSvg(res, svg, { cache = false, head = false } = {}) {
     res.setHeader("Pragma", "no-cache");
     res.setHeader("Expires", "0");
   }
+  res.setHeader("X-Made-By", "Kevish (https://kevish.dev)");
   res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'");
   res.end(head ? undefined : svg);
@@ -42,6 +43,7 @@ export function sendJson(res, status, body) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
   res.setHeader("Cache-Control", "no-store");
   res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("X-Made-By", "Kevish (https://kevish.dev)");
   res.end(JSON.stringify(body));
 }
 
