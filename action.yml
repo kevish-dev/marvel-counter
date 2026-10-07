@@ -1,0 +1,29 @@
+name: HeroCount visitor count
+description: Writes your current HeroCount visitor count into your README, between two marker comments.
+author: Kevish (https://kevish.dev)
+branding:
+  icon: eye
+  color: red
+inputs:
+  id:
+    description: Your HeroCount counter id
+    required: true
+  file:
+    description: File to update
+    default: README.md
+  host:
+    description: HeroCount host
+    default: https://herocount.kevish.dev
+  template:
+    description: "Text written between the markers. {count} = 1,204 and {compact} = 1.2K"
+    default: "{count}"
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        HC_ID: ${{ inputs.id }}
+        HC_FILE: ${{ inputs.file }}
+        HC_HOST: ${{ inputs.host }}
+        HC_TEMPLATE: ${{ inputs.template }}
+      run: node "${{ github.action_path }}/scripts/update-readme.mjs"

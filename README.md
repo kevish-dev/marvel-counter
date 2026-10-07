@@ -32,6 +32,54 @@ with small CSS animations. Served as an SVG from a Vercel function; the count li
 - Counts image loads, not unique people: GitHub proxies images, so visitor IPs are hidden.
 - Responses send `no-store` headers so GitHub's image proxy refetches each time.
 
+## What it does
+
+| URL | What you get |
+|---|---|
+| `/c/<id>.svg` | The animated counter. +1 per view. Options below. |
+| `/c/<id>.badge.svg` | A small shields-style badge that counts the same way. |
+| `/c/<id>.json` | `{ id, count, created, claimed, by }`. Read-only, CORS open. |
+| `/c/<id>.shields.json` | Shields.io endpoint schema. Read-only. |
+| `/preview.svg` | Stateless sample for the generator (same options, plus `n=`). |
+| `/api/heroes` | Every hero: id, label, pack, trick. |
+| `/dashboard` | Stats (30 days, referrers) and reset / rotate key / delete, with your edit key. |
+| `/integrations` | Snippets for GitHub, GitLab, Notion, Dev.to, Hashnode, websites, React. |
+
+### Image options
+
+`theme` dark, light, auto, clear | `digits` 3 to 9 | `format` plain, sep (1,234), compact (1.2K) |
+`pack` classic, marvel, retro, critters | `heroes` comma list, e.g. `thor,groot,cat` | `since=1` adds "since oct 2026" |
+`milestone=0` turns off confetti at 100 / 1,000 / 10,000 views and so on | `peek=1` reads without counting.
+
+### Edit keys
+
+`POST /api/create {"id"}` returns a one-time `key`. The server stores only its SHA-256. The key unlocks `POST /api/manage`
+(`stats`, `reset`, `rotate`, `delete`). Ids that predate keys can be claimed once with `{"id", "action":"claim"}`; `kevish-dev` is reserved.
+
+### Counting rules
+
+Crawlers, link previews, HEAD requests and `peek=1` do not count. One IP can add at most 120 views a minute to one counter.
+GitHub strips referrers, so the referrer list is mostly useful for embeds on your own site.
+
+### Admin
+
+Set `ADMIN_TOKEN` on the deployment, then open `/admin` or call `GET /api/admin` with `Authorization: Bearer <token>`.
+
+### GitHub Action (visitor count as text)
+
+```yaml
+- uses: kevish-dev/marvel-counter@main
+  with:
+    id: your-id
+    template: "{count} ({compact})"
+```
+
+Put `<!-- herocount:start -->0<!-- herocount:end -->` in your README where the number should go.
+
+## Tests
+
+`node --test test/herocount.test.mjs test/features.test.mjs`
+
 ## License
 
 HeroCount is **source-available, not open source**. See [LICENSE](LICENSE).

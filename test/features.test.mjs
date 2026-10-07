@@ -163,3 +163,31 @@ test("upstash adapter: parses script replies, falls back to plain commands, buil
     assert.deepEqual(p, [1, 1]);
   } finally { globalThis.fetch = realFetch; }
 });
+
+import fs from "node:fs";
+test("every page: script parses, no em or en dashes, links the shared stylesheet", () => {
+  for (const f of ["index", "pricing", "dashboard", "integrations", "admin"]) {
+    const h = fs.readFileSync(new URL(`../public/${f}.html`, import.meta.url), "utf8");
+    const m = h.match(/<script>([\s\S]*)<\/script>/);
+    if (m) new Function(m[1]);
+    assert.equal((h.match(/[–—]/g) || []).length, 0, f);
+    assert.ok(h.includes('href="/site.css"'), f);
+  }
+});
+test("action script updates markers, is idempotent and fails loudly", async () => {
+  const { execFileSync, spawnSync } = await import("node:child_process");
+  const os = await import("node:os"); const path = await import("node:path");
+  const http = await import("node:http");
+  const srv = http.createServer((q, r) => { r.setHeader("content-type", "application/json"); r.end(JSON.stringify({ count: 12345 })); });
+  await new Promise((ok) => srv.listen(0, ok));
+  const port = srv.address().port;
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "hc-"));
+  const f = path.join(dir, "README.md"); fs.writeFileSync(f, "a <!-- herocount:start -->0<!-- herocount:end --> b");
+  const env = { ...process.env, HC_ID: "x", HC_HOST: `http://localhost:${port}`, HC_FILE: f, HC_TEMPLATE: "{count}/{compact}" };
+  const run = () => new Promise((ok) => { import("node:child_process").then(({ execFile }) => execFile("node", [new URL("../scripts/update-readme.mjs", import.meta.url).pathname], { env }, (e, so) => ok({ code: e?.code ?? 0, so }))); });
+  assert.equal((await run()).code, 0);
+  assert.equal(fs.readFileSync(f, "utf8"), "a <!-- herocount:start -->12,345/12K<!-- herocount:end --> b");
+  assert.match((await run()).so, /already shows/);
+  fs.writeFileSync(f, "no markers"); assert.equal((await run()).code, 1);
+  srv.close();
+});

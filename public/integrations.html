@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%23e5484d'/%3E%3Crect x='3' y='6' width='4' height='3' fill='%23fff'/%3E%3Crect x='9' y='6' width='4' height='3' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preload" href="/fonts/geist-vf.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="/site.css">
+<title>Integrations - HeroCount</title>
+<meta name="description" content="Put a HeroCount counter on GitHub, GitLab, Notion, Dev.to, Hashnode, your own site or a React app, and update your README from a GitHub Action.">
+<style>
+.i-hero{padding:48px 0 16px}
+.i-hero h1{font:700 clamp(32px,5vw,56px)/1.05 "Geist",sans-serif;letter-spacing:-.04em;margin:0;max-width:18ch}
+.i-hero p{color:var(--mute);margin:14px 0 0;max-width:56ch}
+.idrow{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin:28px 0 8px}
+.idrow .idbox{min-width:min(100%,360px)}
+.platforms{margin-top:24px}
+.step{color:var(--mute);margin:16px 0 0;max-width:62ch}
+.step ol{padding-left:20px;margin:10px 0 0;display:grid;gap:6px}
+.note{margin-top:14px;padding:12px 14px;border:var(--px) solid var(--line);color:var(--mute);font-size:14px;max-width:62ch}
+.codeblock{margin-top:16px}
+.sec{padding:56px 0 8px}
+.sec h2{max-width:22ch}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+@media (max-width:860px){.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="HeroCount home">Hero<b>Count</b></a>
+    <nav aria-label="Primary">
+      <a href="/#heroes">Heroes</a>
+      <a href="/#make">Make yours</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/integrations">Integrations</a>
+      <a href="/pricing">Pricing</a>
+      <a class="gh" href="https://github.com/kevish-dev/marvel-counter"><i class="ph ph-github-logo" aria-hidden="true"></i>Source</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="i-hero"><div class="wrap">
+    <h1 class="rise">Put it wherever an image works.</h1>
+    <p class="rise d1">Type your id once and every snippet below fills in. No account needed, and you can make an id on the home page.</p>
+    <div class="idrow rise d2"><div><label class="t" for="id">Your id</label><div class="idbox"><span class="mono" id="prefix">/c/</span><input id="id" maxlength="39" spellcheck="false" autocapitalize="off" placeholder="your-id"></div></div></div>
+  </div></div>
+
+  <div class="wrap platforms">
+    <div class="tabs" role="tablist" aria-label="Where to embed" id="ptabs"></div>
+    <div class="box" style="padding:22px;border-top:0">
+      <div id="pbody"></div>
+    </div>
+  </div>
+
+  <section class="sec" aria-labelledby="h-shields"><div class="wrap two">
+    <div class="reveal"><h2 id="h-shields">A Shields badge, if your README already uses them.</h2>
+      <p class="lede" style="margin:0">The shields endpoint is read-only, so it never changes your count. Use it next to other badges. The little pixel badge counts views like the full counter does.</p></div>
+    <div class="reveal"><div class="codebox"><pre class="mono" id="c-shields"></pre><button class="copy" data-for="c-shields" type="button" aria-label="Copy"><i class="ph ph-copy" aria-hidden="true"></i></button></div>
+      <div class="codebox" style="margin-top:12px"><pre class="mono" id="c-badge"></pre><button class="copy" data-for="c-badge" type="button" aria-label="Copy"><i class="ph ph-copy" aria-hidden="true"></i></button></div></div>
+  </div></section>
+
+  <section class="sec" aria-labelledby="h-action"><div class="wrap two">
+    <div class="reveal"><h2 id="h-action">Show the number as text, too.</h2>
+      <p class="lede" style="margin:0">A small GitHub Action rewrites a line in your README with your current count, once a day. Add the two marker comments where you want the number, then add the workflow.</p></div>
+    <div class="reveal">
+      <div class="codebox"><pre class="mono" id="c-marker"></pre><button class="copy" data-for="c-marker" type="button" aria-label="Copy"><i class="ph ph-copy" aria-hidden="true"></i></button></div>
+      <div class="codebox" style="margin-top:12px"><pre class="mono" id="c-action"></pre><button class="copy" data-for="c-action" type="button" aria-label="Copy"><i class="ph ph-copy" aria-hidden="true"></i></button></div></div>
+  </div></section>
+
+  <section class="sec" aria-labelledby="h-json" style="padding-bottom:88px"><div class="wrap two">
+    <div class="reveal"><h2 id="h-json">Or just read the number.</h2>
+      <p class="lede" style="margin:0">The JSON endpoint allows any website to call it. It never counts a view.</p></div>
+    <div class="reveal"><div class="codebox"><pre class="mono" id="c-json"></pre><button class="copy" data-for="c-json" type="button" aria-label="Copy"><i class="ph ph-copy" aria-hidden="true"></i></button></div></div>
+  </div></section>
+</main>
+<footer>
+  <div class="wrap">
+    <span>Fan-made pixel art, not affiliated with Marvel. Built by <a href="https://kevish.dev">Kevish</a>. Source-available, see <a href="https://github.com/kevish-dev/marvel-counter/blob/main/LICENSE">license</a>.</span>
+    <a href="https://github.com/kevish-dev/marvel-counter">github.com/kevish-dev/marvel-counter</a>
+  </div>
+</footer>
+<script>
+const $=s=>document.querySelector(s);
+const origin=location.origin;
+const PLATFORMS=[
+ {k:"github",name:"GitHub README",steps:["Open the README of your profile repo (named like your username) or any repo.","Paste the snippet and commit."],note:"GitHub caches images for a short while through its own proxy. The counter tells it not to, so each view counts.",
+  snip:(b)=>`[![Visitors](${b}.svg)](${origin})`},
+ {k:"gitlab",name:"GitLab / Bitbucket",steps:["Edit your README.md.","Paste the Markdown and commit."],note:"Both render Markdown images. If your host caches images, the count updates when its cache refreshes.",
+  snip:(b)=>`[![Visitors](${b}.svg)](${origin})`},
+ {k:"notion",name:"Notion",steps:["Type /image on a Notion page.","Choose Embed link and paste the image address below.","Optionally, link the image to ${origin}."],note:"Notion keeps its own copy of external images, so the number may lag behind or not move on every view.",
+  snip:(b)=>`${b}.svg`},
+ {k:"blog",name:"Dev.to, Hashnode, Medium",steps:["Add an image in your post and paste the address, or paste the Markdown.","Publish."],note:"These platforms usually proxy images, so counts follow how often their cache refreshes. Dev.to and Hashnode accept the Markdown directly.",
+  snip:(b)=>`![Visitors](${b}.svg)`},
+ {k:"site",name:"Your website",steps:["Paste the HTML where you want it.","Set a width if you like. The image scales."],note:"Referrers from your site show up in your dashboard.",
+  snip:(b)=>`<a href="${origin}">\n  <picture>\n    <source media="(prefers-color-scheme: light)" srcset="${b}.svg?theme=light">\n    <img alt="Visitors" src="${b}.svg" width="520" height="130" loading="lazy">\n  </picture>\n</a>`},
+ {k:"react",name:"React / Next.js / MDX",steps:["Drop the component anywhere, including MDX and Docusaurus pages.","It renders a plain image, so it works in server components too."],note:"Pass theme to match your site.",
+  snip:(b)=>`export function Visitors({ theme = "dark" }) {\n  const q = theme === "dark" ? "" : "?theme=" + theme;\n  return (\n    <a href="${origin}">\n      <img alt="Visitors" src={"${b}.svg" + q} width={520} height={130} loading="lazy" />\n    </a>\n  );\n}`}
+];
+let cur="github";
+const id=()=>{const v=$("#id").value.trim().toLowerCase();return /^[a-z0-9][a-z0-9_-]{0,38}$/.test(v)?v:"your-id"};
+const base=()=>origin+"/c/"+id();
+function copy(btn,text){navigator.clipboard.writeText(text).then(()=>{const i=btn.querySelector("i");if(i){i.className="ph ph-check";setTimeout(()=>i.className="ph ph-copy",1300)}}).catch(()=>{})}
+function render(){
+ const tabs=$("#ptabs");tabs.textContent="";
+ for(const p of PLATFORMS){const b=document.createElement("button");b.type="button";b.role="tab";b.textContent=p.name;b.setAttribute("aria-selected",String(p.k===cur));b.onclick=()=>{cur=p.k;render()};tabs.append(b)}
+ const p=PLATFORMS.find(x=>x.k===cur);const body=$("#pbody");body.textContent="";
+ const st=document.createElement("div");st.className="step";const ol=document.createElement("ol");for(const t of p.steps){const li=document.createElement("li");li.textContent=t.replace("${origin}",origin);ol.append(li)}st.append(ol);body.append(st);
+ const cb=document.createElement("div");cb.className="codebox codeblock";const pre=document.createElement("pre");pre.className="mono";pre.textContent=p.snip(base());
+ const btn=document.createElement("button");btn.className="copy";btn.type="button";btn.setAttribute("aria-label","Copy snippet");btn.innerHTML='<i class="ph ph-copy" aria-hidden="true"></i>';btn.onclick=()=>copy(btn,pre.textContent);cb.append(pre,btn);body.append(cb);
+ const n=document.createElement("div");n.className="note";n.textContent=p.note;body.append(n);
+ $("#c-shields").textContent=`![Visitors](https://img.shields.io/endpoint?url=${encodeURIComponent(base()+".shields.json")}&style=flat-square)`;
+ $("#c-badge").textContent=`[![Visitors](${base()}.badge.svg)](${origin})`;
+ $("#c-marker").textContent=`Visitors so far: <!-- herocount:start -->0<!-- herocount:end -->`;
+ $("#c-action").textContent=`name: Update visitor count\non:\n  schedule: [{ cron: "17 3 * * *" }]\n  workflow_dispatch:\npermissions:\n  contents: write\njobs:\n  update:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: kevish-dev/marvel-counter@main\n        with:\n          id: ${id()}\n      - run: |\n          git config user.name "github-actions[bot]"\n          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"\n          git diff --quiet || (git commit -am "Update visitor count" && git push)`;
+ $("#c-json").textContent=`curl ${base()}.json\n\n{ "id": "${id()}", "count": 1204, "created": "2026-10-07T09:12:00.000Z", "by": "https://kevish.dev" }`;
+}
+document.querySelectorAll(".copy[data-for]").forEach(b=>b.onclick=()=>copy(b,document.getElementById(b.dataset.for).textContent));
+$("#id").addEventListener("input",render);
+$("#prefix").textContent=location.host+"/c/";
+try{const o=JSON.parse(localStorage.getItem("herocount.keys")||"{}"),ids=Object.keys(o);if(ids.length)$("#id").value=ids[0]}catch{}
+const q=new URLSearchParams(location.search).get("id");if(q)$("#id").value=q.toLowerCase();
+render();
+if("IntersectionObserver"in window&&!matchMedia("(prefers-reduced-motion: reduce)").matches){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll(".reveal").forEach(el=>io.observe(el))}else document.querySelectorAll(".reveal").forEach(el=>el.classList.add("in"));
+</script>
+</body>
+</html>

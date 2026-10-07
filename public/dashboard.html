@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%23e5484d'/%3E%3Crect x='3' y='6' width='4' height='3' fill='%23fff'/%3E%3Crect x='9' y='6' width='4' height='3' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preload" href="/fonts/geist-vf.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="/site.css">
+<title>Dashboard - HeroCount</title>
+<meta name="description" content="See views per day, referrers and manage your HeroCount counter.">
+<style>
+.dash-hero{padding:48px 0 24px}
+.dash-hero h1{font:700 clamp(32px,5vw,56px)/1.05 "Geist",sans-serif;letter-spacing:-.04em;margin:0}
+.dash-hero p{color:var(--mute);margin:14px 0 0;max-width:56ch}
+.login{display:grid;grid-template-columns:1fr 1.4fr auto;gap:12px;align-items:end;padding:20px}
+.login .idbox{width:100%}
+.login input.key{width:100%;background:var(--bg);border:var(--px) solid var(--line);color:var(--text);font:500 15px/1.2 "Geist Mono",monospace;padding:13px 12px}
+.login input.key:focus-visible{outline:0;border-color:var(--focus)}
+.saved{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:26px 0 0}
+.kpi{padding:18px;background:var(--panel);border:var(--px) solid var(--line)}
+.kpi b{display:block;font:700 clamp(26px,3.4vw,40px)/1.05 "Geist",sans-serif;letter-spacing:-.03em}
+.kpi span{color:var(--mute);font-size:13px}
+.chartbox{margin-top:18px;padding:20px;background:var(--panel);border:var(--px) solid var(--line)}
+.chartbox h2{font:600 16px/1.2 "Geist",sans-serif;margin:0 0 14px;max-width:none;letter-spacing:0}
+#chart{width:100%;height:auto;display:block}
+.cols{display:grid;grid-template-columns:1.2fr 1fr;gap:18px;margin-top:18px}
+.panel2{padding:20px;background:var(--panel);border:var(--px) solid var(--line)}
+.panel2 h2{font:600 16px/1.2 "Geist",sans-serif;margin:0 0 12px;max-width:none;letter-spacing:0}
+.ref{display:grid;grid-template-columns:1fr auto;gap:4px 12px;margin-bottom:10px;font-size:14px}
+.ref i{grid-column:1/3;height:6px;background:var(--accent);display:block}
+.ref span:last-child{color:var(--mute)}
+.empty{color:var(--mute);font-size:14px;margin:0}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.danger{border-color:var(--err)!important;color:var(--err)!important}
+.status{min-height:1.5em;font-size:14px;margin:12px 0 0}
+.status.ok{color:var(--ok)}.status.err{color:var(--err)}
+.newkey{margin-top:12px;padding:12px;border:var(--px) solid var(--accent);word-break:break-all;font-size:13px}
+@media (max-width:860px){.login{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="HeroCount home">Hero<b>Count</b></a>
+    <nav aria-label="Primary">
+      <a href="/#heroes">Heroes</a>
+      <a href="/#make">Make yours</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/integrations">Integrations</a>
+      <a href="/pricing">Pricing</a>
+      <a class="gh" href="https://github.com/kevish-dev/marvel-counter"><i class="ph ph-github-logo" aria-hidden="true"></i>Source</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="dash-hero"><div class="wrap">
+    <h1 class="rise">Your counter, in numbers.</h1>
+    <p class="rise d1">Enter the id and the edit key you saved when you created it. Your key never leaves your browser except to ask the server for your own stats.</p>
+  </div></div>
+  <div class="wrap">
+    <form class="box login rise d2" id="login" autocomplete="off">
+      <div><label class="t" for="id">Counter id</label><div class="idbox"><span class="mono">/c/</span><input id="id" maxlength="39" spellcheck="false" autocapitalize="off" placeholder="your-id"></div></div>
+      <div><label class="t" for="key">Edit key</label><input class="key" id="key" type="password" spellcheck="false" autocapitalize="off" placeholder="hck_..."></div>
+      <button class="btn" type="submit" id="go">Load stats</button>
+    </form>
+    <div class="saved" id="saved" aria-label="Counters saved in this browser"></div>
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+
+    <div id="out" hidden>
+      <div class="kpis">
+        <div class="kpi"><b id="k-total">0</b><span>Total views</span></div>
+        <div class="kpi"><b id="k-today">0</b><span>Today (UTC)</span></div>
+        <div class="kpi"><b id="k-week">0</b><span>Last 7 days</span></div>
+        <div class="kpi"><b id="k-since">n/a</b><span>Created</span></div>
+      </div>
+      <div class="chartbox">
+        <h2>Views per day, last 30 days</h2>
+        <svg id="chart" viewBox="0 0 900 260" role="img" aria-label="Bar chart of daily views"></svg>
+        <details style="margin-top:12px"><summary class="hint" style="cursor:pointer">Show as a table</summary><div id="table" class="mono" style="font-size:13px;margin-top:8px;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:4px 16px"></div></details>
+      </div>
+      <div class="cols">
+        <div class="panel2"><h2>Top referrers</h2><div id="refs"></div>
+          <p class="hint">GitHub hides where a profile view comes from, so most README views show no referrer. Embeds on your own site do.</p></div>
+        <div class="panel2"><h2>Manage</h2>
+          <div class="actions">
+            <button class="btn ghost small" id="reset" type="button">Reset count to 0</button>
+            <button class="btn ghost small" id="rotate" type="button">Rotate edit key</button>
+            <button class="btn ghost small danger" id="delete" type="button">Delete counter</button>
+          </div>
+          <div id="newkey" class="newkey mono" hidden></div>
+          <div class="status" id="mstatus" role="status" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="wrap">
+    <span>Fan-made pixel art, not affiliated with Marvel. Built by <a href="https://kevish.dev">Kevish</a>. Source-available, see <a href="https://github.com/kevish-dev/marvel-counter/blob/main/LICENSE">license</a>.</span>
+    <a href="https://github.com/kevish-dev/marvel-counter">github.com/kevish-dev/marvel-counter</a>
+  </div>
+</footer>
+<script>
+const $=s=>document.querySelector(s);
+const KEYS="herocount.keys";
+const keys=()=>{try{return JSON.parse(localStorage.getItem(KEYS)||"{}")}catch{return{}}};
+const setKey=(id,k)=>{try{const o=keys();if(k)o[id]=k;else delete o[id];localStorage.setItem(KEYS,JSON.stringify(o))}catch{}};
+const fmt=n=>Number(n).toLocaleString("en-US");
+let cur={id:"",key:""};
+const say=(el,kind,t)=>{el.className="status "+kind;el.textContent=t};
+
+function saved(){const box=$("#saved");box.textContent="";const o=keys();
+  for(const id of Object.keys(o)){const b=document.createElement("button");b.type="button";b.className="chip";b.textContent=id;b.onclick=()=>{$("#id").value=id;$("#key").value=o[id];load()};box.append(b)}}
+
+async function api(body){const r=await fetch("/api/manage",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body)});return{ok:r.ok,status:r.status,j:await r.json().catch(()=>({}))}}
+
+function chart(daily){const svg=$("#chart");svg.textContent="";const W=900,H=260,pl=44,pb=28,pt=12,pr=8;
+  const max=Math.max(1,...daily.map(d=>d.count));const bw=(W-pl-pr)/daily.length;
+  const ns="http://www.w3.org/2000/svg";const mk=(n,a)=>{const e=document.createElementNS(ns,n);for(const[k,v]of Object.entries(a))e.setAttribute(k,v);return e};
+  for(const f of[0,.5,1]){const y=pt+(H-pt-pb)*(1-f);svg.append(mk("line",{x1:pl,x2:W-pr,y1:y,y2:y,stroke:"var(--line)","stroke-width":1,opacity:.5}));
+    const t=mk("text",{x:pl-8,y:y+4,"text-anchor":"end","font-size":12,fill:"var(--mute)"});t.textContent=Math.round(max*f);svg.append(t)}
+  daily.forEach((d,i)=>{const h=(H-pt-pb)*d.count/max;const x=pl+i*bw+2;
+    const r=mk("rect",{x,y:H-pb-h,width:Math.max(2,bw-4),height:Math.max(h,d.count?2:0),fill:"var(--accent)"});
+    const tt=mk("title",{});tt.textContent=d.day+": "+d.count+" views";r.append(tt);svg.append(r);
+    if(i%5===0||i===daily.length-1){const t=mk("text",{x:x+bw/2-2,y:H-8,"text-anchor":"middle","font-size":11,fill:"var(--mute)"});t.textContent=d.day.slice(5);svg.append(t)}});
+  const tb=$("#table");tb.textContent="";for(const d of daily){const s=document.createElement("span");s.textContent=d.day+"  "+d.count;tb.append(s)}}
+
+function render(s){$("#out").hidden=false;
+  $("#k-total").textContent=fmt(s.count);$("#k-today").textContent=fmt(s.daily.at(-1)?.count||0);
+  $("#k-week").textContent=fmt(s.daily.slice(-7).reduce((a,d)=>a+d.count,0));
+  $("#k-since").textContent=s.created?new Date(s.created).toLocaleDateString("en",{year:"numeric",month:"short",day:"numeric"}):"n/a";
+  chart(s.daily);
+  const refs=$("#refs");refs.textContent="";
+  if(!s.refs.length){const p=document.createElement("p");p.className="empty";p.textContent="No referrers recorded yet.";refs.append(p)}
+  else{const m=Math.max(...s.refs.map(r=>r[1]));for(const[h,c]of s.refs){const w=document.createElement("div");w.className="ref";
+    const a=document.createElement("span");a.textContent=h;const b=document.createElement("span");b.textContent=fmt(c);
+    const bar=document.createElement("i");bar.style.width=Math.max(4,100*c/m)+"%";w.append(a,b,bar);refs.append(w)}}}
+
+async function load(){const id=$("#id").value.trim().toLowerCase(),key=$("#key").value.trim();const st=$("#status");
+  if(!id||!key){say(st,"err","Enter both the id and your edit key.");return}
+  $("#go").disabled=true;say(st,"","Loading...");
+  try{const r=await api({id,key,action:"stats"});
+    if(r.ok){cur={id,key};setKey(id,key);saved();say(st,"ok","Loaded "+id+".");render(r.j)}
+    else{$("#out").hidden=true;say(st,"err",r.j.error||"Could not load.");
+      if(r.j.claimable){const b=document.createElement("button");b.type="button";b.className="btn ghost small";b.style.marginLeft="10px";b.textContent="Claim this id";b.onclick=async()=>{const c=await api({id,action:"claim"});if(c.ok){setKey(id,c.j.key);$("#key").value=c.j.key;say(st,"ok","Claimed. Your edit key is filled in and saved in this browser. Copy it somewhere safe: "+c.j.key);saved()}else say(st,"err",c.j.error||"Could not claim.")};st.append(b)}}}
+  catch{say(st,"err","Network error. Try again.")}
+  $("#go").disabled=false}
+
+$("#login").addEventListener("submit",e=>{e.preventDefault();load()});
+async function act(action,confirmMsg){const ms=$("#mstatus");if(confirmMsg&&!confirm(confirmMsg))return;
+  const r=await api({id:cur.id,key:cur.key,action});
+  if(!r.ok){say(ms,"err",r.j.error||"Failed.");return}
+  if(action==="rotate"){cur.key=r.j.key;setKey(cur.id,r.j.key);$("#key").value=r.j.key;const nk=$("#newkey");nk.hidden=false;nk.textContent="New edit key (old one no longer works): "+r.j.key;say(ms,"ok","Key rotated. Save the new one.");saved();return}
+  if(action==="delete"){setKey(cur.id,null);saved();$("#out").hidden=true;say($("#status"),"ok","Deleted "+cur.id+".");return}
+  say(ms,"ok","Count reset.");load()}
+$("#reset").onclick=()=>act("reset","Reset the count for "+cur.id+" to 0? Daily history is cleared too.");
+$("#rotate").onclick=()=>act("rotate","Make a new edit key? The old one stops working.");
+$("#delete").onclick=()=>{const t=prompt('Type the id "'+cur.id+'" to delete this counter for good.');if(t===cur.id)act("delete");else if(t!==null)say($("#mstatus"),"err","That did not match. Nothing was deleted.")};
+saved();const o=keys(),ids=Object.keys(o);if(ids.length===1){$("#id").value=ids[0];$("#key").value=o[ids[0]]}
+const q=new URLSearchParams(location.search).get("id");if(q)$("#id").value=q.toLowerCase();
+</script>
+</body>
+</html>

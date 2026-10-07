@@ -20,6 +20,8 @@
       <a href="#heroes">Heroes</a>
       <a href="#make">Make yours</a>
       <a href="#api">API</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/integrations">Integrations</a>
       <a href="/pricing">Pricing</a>
       <a class="gh" href="https://github.com/kevish-dev/marvel-counter"><i class="ph ph-github-logo" aria-hidden="true"></i>Source</a>
     </nav>
@@ -59,6 +61,11 @@
             <p class="hint">Letters, numbers, - and _. A GitHub username works well.</p>
             <div class="msg" id="msg" role="status" aria-live="polite"></div>
             <button class="btn" id="create" type="button" style="margin-top:14px">Create counter</button>
+            <div class="keybox" id="keybox" hidden>
+              <strong>Your edit key. Shown once, save it now.</strong>
+              <div class="keyrow"><code id="keyval" class="mono"></code><button class="btn ghost small" id="keycopy" type="button">Copy</button></div>
+              <p class="hint">It unlocks stats, reset, key rotation and delete for this counter. <a href="/dashboard" id="dashlink">Open the dashboard</a></p>
+            </div>
           </div>
           <div class="field">
             <span class="t" id="theme-l">Background</span>
@@ -67,13 +74,30 @@
             </div>
           </div>
           <div class="field">
+            <span class="t" id="format-l">Number style</span>
+            <div class="seg" role="group" aria-labelledby="format-l" id="format">
+              <button data-v="plain" aria-pressed="true">0001204</button><button data-v="sep" aria-pressed="false">1,204</button><button data-v="compact" aria-pressed="false">1.2K</button>
+            </div>
+          </div>
+          <div class="field" id="digits-field">
             <label class="t" for="digits">Digits: <span id="dv" class="mono">7</span></label>
             <input type="range" id="digits" min="3" max="9" value="7">
           </div>
           <div class="field">
-            <span class="t" id="heroes-l">Hero order</span>
-            <div class="chips" id="heroes-pick" role="group" aria-labelledby="heroes-l"></div>
-            <p class="hint">Click heroes in the order you want. Nothing picked uses the default lineup.</p>
+            <span class="t" id="pack-l">Hero pack</span>
+            <div class="seg" role="group" aria-labelledby="pack-l" id="pack">
+              <button data-v="classic" aria-pressed="true">Classic 7</button><button data-v="marvel" aria-pressed="false">Marvel 11</button><button data-v="retro" aria-pressed="false">Retro</button><button data-v="critters" aria-pressed="false">Critters</button>
+            </div>
+          </div>
+          <div class="field">
+            <span class="t" id="heroes-l">Pick your own order</span>
+            <div id="heroes-pick" role="group" aria-labelledby="heroes-l"></div>
+            <p class="hint">Click heroes in the order you want. Nothing picked uses the pack above.</p>
+          </div>
+          <div class="field">
+            <label class="check"><input type="checkbox" id="since"> Show "since" date under the heroes</label>
+            <label class="check"><input type="checkbox" id="milestone" checked> Confetti at 100, 1,000, 10,000 views and more</label>
+            <button class="btn ghost small" id="confetti" type="button" style="margin-top:10px">Preview the confetti</button>
           </div>
         </div>
 
@@ -82,6 +106,8 @@
           <div class="tabs" role="tablist" aria-label="Snippet format">
             <button role="tab" aria-selected="true" data-tab="md">Markdown</button>
             <button role="tab" aria-selected="false" data-tab="html">HTML, dark + light</button>
+            <button role="tab" aria-selected="false" data-tab="badge">Small badge</button>
+            <button role="tab" aria-selected="false" data-tab="shields">Shields</button>
             <button role="tab" aria-selected="false" data-tab="json">JSON</button>
           </div>
           <div class="codebox">
@@ -125,7 +151,7 @@
 </footer>
 
 <script>
-const HEROES=[
+const TILES=[
  ["spider-man","Spider-Man","Shoots a web, blinks","t1","100"],
  ["iron-man","Iron Man","Fires the boot jets","t2","200"],
  ["captain-america","Captain America","Shield catches the light","t3","300"],
@@ -134,21 +160,29 @@ const HEROES=[
  ["black-panther","Black Panther","Suit lines pulse","t6","600"],
  ["doctor-strange","Doctor Strange","Spins his rings","t7","700"]
 ];
+const PACK_TITLES={marvel:"Marvel",retro:"Retro",critters:"Critters"};
+let CATALOG=[["spider-man","Spider-Man","marvel"],["iron-man","Iron Man","marvel"],["captain-america","Captain America","marvel"],["thor","Thor","marvel"],["hulk","Hulk","marvel"],["black-panther","Black Panther","marvel"],["doctor-strange","Doctor Strange","marvel"]];
 const $=s=>document.querySelector(s);
 const origin=location.origin;
-const state={theme:"dark",digits:7,heroes:[],created:null,tab:"md"};
-const KEY="herocount.v2";
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}};
+const state={theme:"dark",digits:7,format:"plain",pack:"classic",heroes:[],since:false,milestone:true,created:null,tab:"md",confetti:false};
+const KEY="herocount.v3";
+const save=()=>{try{const{confetti,...rest}=state;localStorage.setItem(KEY,JSON.stringify(rest))}catch{}};
+const keys=()=>{try{return JSON.parse(localStorage.getItem("herocount.keys")||"{}")}catch{return{}}};
+const saveKey=(id,k)=>{try{const o=keys();o[id]=k;localStorage.setItem("herocount.keys",JSON.stringify(o))}catch{}};
+const pick=(v,list,d)=>list.includes(v)?v:d;
 const restore=()=>{try{const r=JSON.parse(localStorage.getItem(KEY)||"null");if(!r)return;
-  if(["dark","light","auto","clear"].includes(r.theme))state.theme=r.theme;
+  state.theme=pick(r.theme,["dark","light","auto","clear"],"dark");
+  state.format=pick(r.format,["plain","sep","compact"],"plain");
+  state.pack=pick(r.pack,["classic","marvel","retro","critters"],"classic");
+  state.tab=pick(r.tab,["md","html","badge","shields","json"],"md");
   if(r.digits>=3&&r.digits<=9)state.digits=+r.digits;
-  if(Array.isArray(r.heroes))state.heroes=r.heroes.filter(h=>HEROES.some(x=>x[0]===h));
-  if(typeof r.created==="string"&&/^[a-z0-9][a-z0-9_-]{0,38}$/.test(r.created))state.created=r.created;
-  if(["md","html","json"].includes(r.tab))state.tab=r.tab}catch{}};
+  if(Array.isArray(r.heroes))state.heroes=r.heroes.filter(h=>typeof h==="string"&&/^[a-z-]{2,20}$/.test(h)).slice(0,9);
+  state.since=!!r.since;state.milestone=r.milestone!==false;
+  if(typeof r.created==="string"&&/^[a-z0-9][a-z0-9_-]{0,38}$/.test(r.created))state.created=r.created}catch{}};
 
 /* lineup tiles: one hero cropped out of a 3-digit preview with no background plate */
 (function(){const b=$("#bento");
- for(const[id,name,trick,cls,n]of HEROES){
+ for(const[id,name,trick,cls,n]of TILES){
   const t=document.createElement("article");t.className="tile "+cls;
   const txt=document.createElement("div");txt.className="txt";
   const h=document.createElement("h3");h.textContent=name;
@@ -160,58 +194,78 @@ const restore=()=>{try{const r=JSON.parse(localStorage.getItem(KEY)||"null");if(
   img.src="/preview.svg?digits=3&theme=clear&heroes="+id+"&n="+n;
   crop.append(img);t.append(txt,crop);b.append(t)}})();
 
-function qs(theme){const p=new URLSearchParams();
+function qs(theme,extra){const p=new URLSearchParams();
  if(theme!=="dark")p.set("theme",theme);
- if(state.digits!==7)p.set("digits",state.digits);
+ if(state.format!=="plain")p.set("format",state.format);
+ else if(state.digits!==7)p.set("digits",state.digits);
  if(state.heroes.length)p.set("heroes",state.heroes.join(","));
+ else if(state.pack!=="classic")p.set("pack",state.pack);
+ if(state.since)p.set("since","1");
+ if(!state.milestone)p.set("milestone","0");
+ for(const[k,v]of Object.entries(extra||{}))p.set(k,v);
  const s=p.toString().replace(/%2C/g,",");return s?"?"+s:""}
 
 function renderChips(){const box=$("#heroes-pick");box.textContent="";
- for(const[id,name]of HEROES){const i=state.heroes.indexOf(id);
-  const b=document.createElement("button");b.className="chip";b.type="button";b.setAttribute("aria-pressed",String(i>=0));
-  if(i>=0){const n=document.createElement("b");n.textContent=String(i+1);b.append(n)}
-  b.append(document.createTextNode(name));
-  b.onclick=()=>{const j=state.heroes.indexOf(id);j>=0?state.heroes.splice(j,1):state.heroes.push(id);update()};
-  box.append(b)}}
+ const groups={};for(const[id,name,pack]of CATALOG)(groups[pack]=groups[pack]||[]).push([id,name]);
+ for(const pack of Object.keys(groups)){
+  const label=document.createElement("div");label.className="grp";label.textContent=PACK_TITLES[pack]||pack;box.append(label);
+  const row=document.createElement("div");row.className="chips";
+  for(const[id,name]of groups[pack]){const i=state.heroes.indexOf(id);
+   const b=document.createElement("button");b.className="chip";b.type="button";b.setAttribute("aria-pressed",String(i>=0));
+   if(i>=0){const n=document.createElement("b");n.textContent=String(i+1);b.append(n)}
+   b.append(document.createTextNode(name));
+   b.onclick=()=>{const j=state.heroes.indexOf(id);j>=0?state.heroes.splice(j,1):state.heroes.length<9&&state.heroes.push(id);update()};
+   row.append(b)}
+  box.append(row)}}
 
 function snippet(){const id=state.created;
  if(!id)return null;
- const base=origin+"/c/"+id+".svg";
- if(state.tab==="md")return `[![Visitors](${base+qs(state.theme)})](${origin})`;
- if(state.tab==="html")return `<a href="${origin}">\n  <picture>\n    <source media="(prefers-color-scheme: light)" srcset="${base+qs("light")}">\n    <img alt="Visitors" src="${base+qs("dark")}">\n  </picture>\n</a>`;
- return `${origin}/c/${id}.json`}
+ const base=origin+"/c/"+id;
+ if(state.tab==="md")return `[![Visitors](${base}.svg${qs(state.theme)})](${origin})`;
+ if(state.tab==="html")return `<a href="${origin}">\n  <picture>\n    <source media="(prefers-color-scheme: light)" srcset="${base}.svg${qs("light")}">\n    <img alt="Visitors" src="${base}.svg${qs("dark")}">\n  </picture>\n</a>`;
+ if(state.tab==="badge")return `[![Visitors](${base}.badge.svg${state.format==="plain"?"":"?format="+state.format})](${origin})`;
+ if(state.tab==="shields")return `![Visitors](https://img.shields.io/endpoint?url=${encodeURIComponent(base+".shields.json")}&style=flat-square)`;
+ return `${base}.json`}
 
 function renderCode(){const pre=$("#code"),copy=$("#copy");const s=snippet();
  if(s){pre.textContent=s;pre.style.color="";copy.hidden=false}
  else{pre.textContent="Create your counter and your snippet shows up here.";pre.style.color="var(--mute)";copy.hidden=true}
  document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.tab===state.tab)))}
 
+function setPressed(sel,v){document.querySelectorAll(sel+" button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.v===v)))}
 function update(){save();renderChips();
- $("#preview").src="/preview.svg"+qs(state.theme);
- $("#dv").textContent=state.digits;
- document.querySelectorAll("#theme button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.v===state.theme)));
+ $("#preview").src="/preview.svg"+qs(state.theme,state.confetti?{celebrate:"1"}:null);
+ $("#dv").textContent=state.digits;$("#digits").value=state.digits;
+ $("#digits-field").style.display=state.format==="plain"?"":"none";
+ $("#since").checked=state.since;$("#milestone").checked=state.milestone;
+ setPressed("#theme",state.theme);setPressed("#format",state.format);setPressed("#pack",state.pack);
  renderCode()}
 
-document.querySelectorAll("#theme button").forEach(b=>b.onclick=()=>{state.theme=b.dataset.v;update()});
+for(const[sel,k]of [["#theme","theme"],["#format","format"],["#pack","pack"]])document.querySelectorAll(sel+" button").forEach(b=>b.onclick=()=>{state[k]=b.dataset.v;if(k==="pack")state.heroes=[];update()});
 $("#digits").oninput=e=>{state.digits=+e.target.value;update()};
+$("#since").onchange=e=>{state.since=e.target.checked;update()};
+$("#milestone").onchange=e=>{state.milestone=e.target.checked;update()};
+$("#confetti").onclick=()=>{state.confetti=!state.confetti;$("#confetti").textContent=state.confetti?"Stop the confetti":"Preview the confetti";update()};
 document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;update()});
 
 const msg=$("#msg");
 const setMsg=(kind,text)=>{msg.className="msg "+kind;msg.textContent=text};
+const showKey=(k)=>{$("#keyval").textContent=k;$("#keybox").hidden=false};
 
 $("#create").onclick=async()=>{
  const btn=$("#create"),id=$("#id").value.trim().toLowerCase();
- setMsg("","");
+ setMsg("","");$("#keybox").hidden=true;
  if(!id){setMsg("err","Type an id first.");return}
  btn.disabled=true;
  try{
   const r=await fetch("/api/create",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({id})});
   const j=await r.json();
-  if(r.ok){state.created=j.id;setMsg("ok",`Created. Your counter starts at 0 at ${location.host}/c/${j.id}.svg`);update();$("#code").scrollIntoView({behavior:"smooth",block:"nearest"})}
+  if(r.ok){state.created=j.id;saveKey(j.id,j.key);showKey(j.key);setMsg("ok",`Created. Your counter starts at 0 at ${location.host}/c/${j.id}.svg`);update();$("#code").scrollIntoView({behavior:"smooth",block:"nearest"})}
   else if(r.status===409){
-   setMsg("err","That id is already taken. If you created it earlier, you can pick it up again. The count is shared with anyone using this id.");
-   const b=document.createElement("button");b.type="button";b.className="btn ghost";b.textContent="Use this id";b.onclick=()=>useExisting(id);
-   msg.append(document.createElement("br"),b)}
+   setMsg("err","That id is already taken. If you created it earlier, you can use it again, or claim it to get an edit key.");
+   const use=document.createElement("button");use.type="button";use.className="btn ghost small";use.textContent="Use this id";use.onclick=()=>useExisting(id);
+   const claim=document.createElement("button");claim.type="button";claim.className="btn ghost small";claim.textContent="Claim it";claim.style.marginLeft="8px";claim.onclick=()=>claimId(id);
+   msg.append(document.createElement("br"),use,claim)}
   else setMsg("err",j.error||"Something went wrong. Try again.");
  }catch{setMsg("err","Network error. Try again.")}
  btn.disabled=false};
@@ -222,16 +276,22 @@ async function useExisting(id){
   else setMsg("err",j.error||"Could not load that id.")}
  catch{setMsg("err","Network error. Try again.")}}
 
+async function claimId(id){
+ try{const r=await fetch("/api/manage",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({id,action:"claim"})});const j=await r.json();
+  if(r.ok){state.created=j.id;saveKey(j.id,j.key);showKey(j.key);setMsg("ok",`You now own "${j.id}".`);update()}
+  else setMsg("err",r.status===409?"That id already has an owner. Pick another id, or use it as is.":(j.error||"Could not claim that id."))}
+ catch{setMsg("err","Network error. Try again.")}}
+
 $("#id").addEventListener("keydown",e=>{if(e.key==="Enter")$("#create").click()});
-$("#copy").onclick=async()=>{const s=snippet();if(!s)return;
- const i=$("#copy i");
- try{await navigator.clipboard.writeText(s);i.className="ph ph-check";setTimeout(()=>i.className="ph ph-copy",1400)}catch{}};
+const copyText=async(text,iconEl,btn)=>{try{await navigator.clipboard.writeText(text);if(iconEl){iconEl.className="ph ph-check";setTimeout(()=>iconEl.className="ph ph-copy",1400)}else if(btn){const o=btn.textContent;btn.textContent="Copied";setTimeout(()=>btn.textContent=o,1400)}}catch{}};
+$("#copy").onclick=()=>{const s=snippet();if(s)copyText(s,$("#copy i"))};
+$("#keycopy").onclick=()=>copyText($("#keyval").textContent,null,$("#keycopy"));
 
 $("#prefix").textContent=location.host+"/c/";
 restore();
-$("#digits").value=state.digits;
 if(state.created){$("#id").value=state.created;setMsg("ok",`Welcome back. "${state.created}" is ready, your snippet is below.`)}
 update();
+fetch("/api/heroes").then(r=>r.json()).then(j=>{CATALOG=j.heroes.map(h=>[h.id,h.label,h.pack]);renderChips()}).catch(()=>{});
 
 /* scroll reveal via IntersectionObserver (no scroll listeners) */
 if("IntersectionObserver"in window&&!matchMedia("(prefers-reduced-motion: reduce)").matches){
