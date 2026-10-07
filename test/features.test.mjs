@@ -166,7 +166,7 @@ test("upstash adapter: parses script replies, falls back to plain commands, buil
 
 import fs from "node:fs";
 test("every page: script parses, no em or en dashes, links the shared stylesheet", () => {
-  for (const f of ["index", "pricing", "dashboard", "integrations", "admin"]) {
+  for (const f of ["index", "pricing", "dashboard", "integrations", "admin", "docs"]) {
     const h = fs.readFileSync(new URL(`../public/${f}.html`, import.meta.url), "utf8");
     const m = h.match(/<script>([\s\S]*)<\/script>/);
     if (m) new Function(m[1]);

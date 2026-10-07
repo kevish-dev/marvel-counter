@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Docs - HeroCount</title>
+<meta name="description" content="Step-by-step guides to add a HeroCount visitor counter to your GitHub profile, a project README, your website, Notion and more.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%23e5484d'/%3E%3Crect x='3' y='6' width='4' height='3' fill='%23fff'/%3E%3Crect x='9' y='6' width='4' height='3' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preload" href="/fonts/geist-vf.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="/site.css">
+<style>
+.docs{display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px;align-items:start;padding:48px 0 72px}
+.toc{position:sticky;top:80px;font-size:14px}
+.toc strong{display:block;font-size:13px;font-weight:500;color:var(--mute);margin:0 0 8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:block;padding:6px 12px;border-radius:var(--r);text-decoration:none;color:var(--mute)}
+.toc a:hover{color:var(--text)}
+.toc a[aria-current=true]{color:var(--text);background:var(--panel-2);font-weight:500}
+.doc{max-width:720px}
+.doc h1{font:600 clamp(32px,4.6vw,48px)/1.05 "Geist",sans-serif;letter-spacing:-.035em;margin:0}
+.doc .lead{color:var(--mute);font-size:clamp(17px,2vw,19px);line-height:1.55;margin:16px 0 0;max-width:56ch}
+.doc section{padding:48px 0 0;scroll-margin-top:72px}
+.doc section+section{border-top:var(--px) solid var(--line);margin-top:48px}
+.doc h2{margin:0 0 8px}
+.doc p{margin:0 0 16px;max-width:65ch}
+.doc .sub{color:var(--mute)}
+.idrow{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin:32px 0 0;padding:16px;border:var(--px) solid var(--line);border-radius:var(--r-lg);background:var(--bg-2)}
+.idrow .idbox{min-width:min(100%,320px)}
+.idrow p{flex-basis:100%;margin:0;font-size:13px;color:var(--mute)}
+ol.steps{list-style:none;counter-reset:s;margin:24px 0 0;padding:0;display:grid;gap:24px}
+ol.steps>li{counter-increment:s;display:grid;grid-template-columns:32px minmax(0,1fr);gap:16px}
+ol.steps>li::before{content:counter(s);width:32px;height:32px;display:grid;place-items:center;border:var(--px) solid var(--line-strong);border-radius:var(--r);font:600 14px/1 "Geist",sans-serif;color:var(--text);background:var(--bg)}
+ol.steps h3{font:600 16px/1.3 "Geist",sans-serif;margin:5px 0 6px}
+ol.steps p{margin:0 0 8px;color:var(--mute)}
+ol.steps .codebox{margin-top:8px}
+.doc code{font:400 13px/1 "Geist Mono",monospace;background:var(--panel-2);border:var(--px) solid var(--line);border-radius:4px;padding:2px 6px}
+.tip{margin:24px 0 0;padding:16px;border:var(--px) solid var(--line);border-radius:var(--r-lg);background:var(--bg-2);font-size:15px}
+.tip strong{font-weight:600}
+.tip p{margin:4px 0 0;color:var(--mute)}
+.examples{display:grid;gap:16px;margin:24px 0 0}
+.ex{border:var(--px) solid var(--line);border-radius:var(--r-lg);padding:16px}
+.ex img{width:100%;height:auto;image-rendering:pixelated}
+.ex .codebox{margin-top:12px}
+.opts{display:grid;grid-template-columns:auto 1fr;border:var(--px) solid var(--line);border-radius:var(--r-lg);overflow:hidden;margin:24px 0 0;font-size:15px}
+.opts dt,.opts dd{margin:0;padding:12px 16px;border-top:var(--px) solid var(--line)}
+.opts dt:first-of-type,.opts dt:first-of-type+dd{border-top:0}
+.opts dt{font-weight:500}
+.opts dd{color:var(--mute)}
+.faq{border-top:var(--px) solid var(--line);margin-top:16px}
+.faq details{border-bottom:var(--px) solid var(--line);padding:16px 0}
+.faq summary{cursor:pointer;font-weight:500;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{font-size:16px;transition:transform .2s ease}
+.faq details[open] summary i{transform:rotate(45deg)}
+.faq details p{margin:8px 0 0;color:var(--mute)}
+.next{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+@media (max-width:900px){.docs{grid-template-columns:minmax(0,1fr);gap:24px;padding-top:32px}.toc{position:static}.toc ol{grid-auto-flow:column;grid-auto-columns:max-content;overflow-x:auto;padding-bottom:4px}}
+@media (prefers-reduced-motion:reduce){.faq summary i{transition:none}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="HeroCount home">Hero<b>Count</b></a>
+    <nav aria-label="Primary">
+      <a href="/#make">Make yours</a>
+      <a href="/docs" aria-current="page">Docs</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/integrations">Integrations</a>
+      <a href="/pricing">Pricing</a>
+      <a class="gh" href="https://github.com/kevish-dev/marvel-counter"><i class="ph ph-github-logo" aria-hidden="true"></i>Source</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap docs">
+  <aside class="toc" aria-label="On this page">
+    <strong>On this page</strong>
+    <ol>
+      <li><a href="#start">Quick start</a></li>
+      <li><a href="#profile">GitHub profile</a></li>
+      <li><a href="#repo">Project README</a></li>
+      <li><a href="#website">Your website</a></li>
+      <li><a href="#other">Notion, blogs, GitLab</a></li>
+      <li><a href="#look">Change the look</a></li>
+      <li><a href="#text">Number as text</a></li>
+      <li><a href="#key">Edit key and stats</a></li>
+      <li><a href="#help">If something looks wrong</a></li>
+    </ol>
+  </aside>
+
+  <article class="doc">
+    <h1>Set up HeroCount, one small step at a time.</h1>
+    <p class="lead">Pick the guide that matches where you want the counter. Every step is short, and every snippet below already has your id in it.</p>
+
+    <div class="idrow">
+      <div style="flex:1;min-width:min(100%,320px)"><label class="t" for="docid">Your counter id</label>
+        <div class="idbox"><span class="mono" id="prefix">/c/</span><input id="docid" maxlength="39" spellcheck="false" autocapitalize="off" placeholder="your-id"></div></div>
+      <a class="btn ghost" href="/#make">Make a new id</a>
+      <p>No id yet? Make one on the home page first, then come back. We fill in your id from this browser when we can.</p>
+    </div>
+
+    <section id="start" aria-labelledby="h-start">
+      <h2 id="h-start">Quick start</h2>
+      <p class="sub">The whole thing, in four steps. The guides below just say where to paste.</p>
+      <ol class="steps">
+        <li><div><h3>Open the home page</h3><p>Go to <a href="/#make">herocount.kevish.dev</a> and scroll to "Make yours in a minute".</p></div></li>
+        <li><div><h3>Type an id and press Create counter</h3><p>Your GitHub username is a good id. Letters, numbers, - and _ only.</p></div></li>
+        <li><div><h3>Save your edit key</h3><p>A key that starts with <code>hck_</code> appears once. Copy it into a password manager. It lets you see stats and reset the counter later.</p></div></li>
+        <li><div><h3>Copy the Markdown snippet</h3><p>It looks like this. Paste it wherever you want the counter.</p>
+          <div class="codebox"><pre class="mono" data-snip="md"></pre><button class="copy" type="button" aria-label="Copy snippet"><i class="ph ph-copy" aria-hidden="true"></i></button></div></div></li>
+      </ol>
+    </section>
+
+    <section id="profile" aria-labelledby="h-profile">
+      <h2 id="h-profile">Add it to your GitHub profile</h2>
+      <p class="sub">Your profile README is the page people see at github.com/your-name.</p>
+      <ol class="steps">
+        <li><div><h3>Find or make your profile repository</h3><p>It is a public repository named exactly like your username. If you do not have one, open <a href="https://github.com/new">github.com/new</a>, type your username as the name, keep it Public, tick "Add a README file", and press Create repository.</p></div></li>
+        <li><div><h3>Open README.md and press the pencil icon</h3><p>That opens the file for editing in your browser.</p></div></li>
+        <li><div><h3>Paste the snippet where you want the counter</h3><p>This version switches between dark and light with the visitor's theme.</p>
+          <div class="codebox"><pre class="mono" data-snip="picture"></pre><button class="copy" type="button" aria-label="Copy snippet"><i class="ph ph-copy" aria-hidden="true"></i></button></div></div></li>
+        <li><div><h3>Press Commit changes</h3><p>Add a short message like "Add visitor counter" and confirm.</p></div></li>
+        <li><div><h3>Visit your profile</h3><p>Open github.com/your-name. The heroes show up and count every view from now on.</p></div></li>
+      </ol>
+      <div class="tip"><strong>Want it smaller?</strong><p>Add <code>width="60%"</code> inside the img tag, or use the small badge from <a href="/integrations">Integrations</a>.</p></div>
+    </section>
+
+    <section id="repo" aria-labelledby="h-repo">
+      <h2 id="h-repo">Add it to a project README</h2>
+      <ol class="steps">
+        <li><div><h3>Open the repository's README.md and press the pencil icon</h3></div></li>
+        <li><div><h3>Paste the Markdown near the top or bottom</h3>
+          <div class="codebox"><pre class="mono" data-snip="md"></pre><button class="copy" type="button" aria-label="Copy snippet"><i class="ph ph-copy" aria-hidden="true"></i></button></div></div></li>
+        <li><div><h3>Commit</h3><p>Use a separate id per project if you want separate counts, for example <code>my-app</code>.</p></div></li>
+      </ol>
+    </section>
+
+    <section id="website" aria-labelledby="h-website">
+      <h2 id="h-website">Add it to your website</h2>
+      <ol class="steps">
+        <li><div><h3>Paste this HTML where the counter should appear</h3>
+          <div class="codebox"><pre class="mono" data-snip="html"></pre><button class="copy" type="button" aria-label="Copy snippet"><i class="ph ph-copy" aria-hidden="true"></i></button></div></div></li>
+        <li><div><h3>Using React, Next.js or MDX? Use this component instead</h3>
+          <div class="codebox"><pre class="mono" data-snip="react"></pre><button class="copy" type="button" aria-label="Copy snippet"><i class="ph ph-copy" aria-hidden="true"></i></button></div></div></li>
+        <li><div><h3>Deploy your site</h3><p>Visits from your site also show up as a referrer in your dashboard.</p></div></li>
+      </ol>
+    </section>
+
+    <section id="other" aria-labelledby="h-other">
+      <h2 id="h-other">Notion, Dev.to, Hashnode and GitLab</h2>
+      <ol class="steps">
+        <li><div><h3>Notion: type /image, choose Embed link, paste this address</h3>
+          <div class="codebox"><pre class="mono" data-snip="url"></pre><button class="copy" type="button" aria-label="Copy address"><i class="ph ph-copy" aria-hidden="true"></i></button></div>
+          <p>Notion keeps its own copy of images, so the number can lag behind.</p></div></li>
+        <li><div><h3>Dev.to, Hashnode, GitLab and Bitbucket: paste the Markdown</h3><p>The same snippet from Quick start works on all of them.</p></div></li>
+      </ol>
+      <div class="next"><a class="btn ghost" href="/integrations">More platforms</a></div>
+    </section>
+
+    <section id="look" aria-labelledby="h-look">
+      <h2 id="h-look">Change the look</h2>
+      <p class="sub">Add options to the end of the image address. Join several with <code>&amp;</code>. The easiest way is the generator on the home page, which writes them for you.</p>
+      <dl class="opts">
+        <dt>theme</dt><dd><code>dark</code>, <code>light</code>, <code>auto</code> (follows the visitor), <code>clear</code> (no background)</dd>
+        <dt>pack</dt><dd><code>classic</code>, <code>marvel</code>, <code>dc</code>, <code>anime</code>, <code>retro</code>, <code>critters</code></dd>
+        <dt>heroes</dt><dd>Your own order, for example <code>batman,goku,cat</code></dd>
+        <dt>format</dt><dd><code>plain</code> (0001204), <code>sep</code> (1,204), <code>compact</code> (1.2K)</dd>
+        <dt>digits</dt><dd>3 to 9, for the plain format</dd>
+        <dt>since</dt><dd><code>1</code> adds "since oct 2026" under the heroes</dd>
+        <dt>milestone</dt><dd><code>0</code> turns off the confetti at 100, 1,000, 10,000 views and more</dd>
+      </dl>
+      <div class="examples">
+        <div class="ex"><img src="/preview.svg?pack=dc&amp;n=48213&amp;digits=5" alt="Counter with the DC heroes" width="620" height="225" loading="lazy">
+          <div class="codebox"><pre class="mono" data-snip="ex-dc"></pre><button class="copy" type="button" aria-label="Copy address"><i class="ph ph-copy" aria-hidden="true"></i></button></div></div>
+        <div class="ex"><img src="/preview.svg?pack=anime&amp;format=compact&amp;n=12450&amp;theme=light" alt="Counter with anime heroes in compact format on a light background" width="380" height="225" loading="lazy" style="max-width:380px">
+          <div class="codebox"><pre class="mono" data-snip="ex-anime"></pre><button class="copy" type="button" aria-label="Copy address"><i class="ph ph-copy" aria-hidden="true"></i></button></div></div>
+      </div>
+    </section>
+
+    <section id="text" aria-labelledby="h-text">
+      <h2 id="h-text">Show the number as text</h2>
+      <p class="sub">A small GitHub Action writes your count into the README once a day, as plain text.</p>
+      <ol class="steps">
+        <li><div><h3>Add two markers to your README where the number goes</h3>
+          <div class="codebox"><pre class="mono" data-snip="marker"></pre><button class="copy" type="button" aria-label="Copy snippet"><i class="ph ph-copy" aria-hidden="true"></i></button></div></div></li>
+        <li><div><h3>Create the file .github/workflows/visitors.yml with this content</h3>
+          <div class="codebox"><pre class="mono" data-snip="action"></pre><button class="copy" type="button" aria-label="Copy snippet"><i class="ph ph-copy" aria-hidden="true"></i></button></div></div></li>
+        <li><div><h3>Run it once</h3><p>Open the Actions tab, pick "Update visitor count" and press Run workflow. After that it runs every day by itself.</p></div></li>
+      </ol>
+    </section>
+
+    <section id="key" aria-labelledby="h-key">
+      <h2 id="h-key">Your edit key and stats</h2>
+      <ol class="steps">
+        <li><div><h3>Open the dashboard</h3><p>Go to <a href="/dashboard">Dashboard</a>, type your id and paste the edit key you saved.</p></div></li>
+        <li><div><h3>Read your numbers</h3><p>Total views, today, the last 7 days, a 30-day chart and the sites that sent visitors.</p></div></li>
+        <li><div><h3>Reset, rotate or delete if you need to</h3><p>Rotate gives you a new key and the old one stops working. Delete removes the counter for good.</p></div></li>
+      </ol>
+      <div class="tip"><strong>Made your counter before edit keys existed?</strong><p>Type the id on the home page, press Create counter, then Claim it. You get a key if nobody has claimed that id yet.</p></div>
+    </section>
+
+    <section id="help" aria-labelledby="h-help">
+      <h2 id="h-help">If something looks wrong</h2>
+      <div class="faq">
+        <details><summary>The counter does not show up <i class="ph ph-plus" aria-hidden="true"></i></summary><p>Check that the id in the snippet matches the one you created. Open the image address in a new tab: if it says "not found", make the id on the home page first.</p></details>
+        <details><summary>The number did not go up when I refreshed <i class="ph ph-plus" aria-hidden="true"></i></summary><p>GitHub and some browsers keep a copy of the image for a moment. Wait a minute and refresh again. One network can add at most 120 views a minute to a counter, so rapid refreshing stops counting.</p></details>
+        <details><summary>Does it count unique people? <i class="ph ph-plus" aria-hidden="true"></i></summary><p>No, it counts page loads. Crawlers and link previews are not counted.</p></details>
+        <details><summary>I lost my edit key <i class="ph ph-plus" aria-hidden="true"></i></summary><p>It cannot be recovered, because we only store a fingerprint of it. Your counter keeps working; you just cannot open its stats. Make a new id if you need a dashboard.</p></details>
+        <details><summary>The id I want is taken <i class="ph ph-plus" aria-hidden="true"></i></summary><p>Pick another, such as your name plus a word. If it is yours from before, press Use this id or Claim it on the home page.</p></details>
+        <details><summary>Can I run HeroCount on my own server? <i class="ph ph-plus" aria-hidden="true"></i></summary><p>Yes, with a license after a 7-day evaluation. See <a href="/pricing">Pricing</a>.</p></details>
+      </div>
+    </section>
+  </article>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Fan-made pixel art, not affiliated with Marvel. Built by <a href="https://kevish.dev">Kevish</a>. Source-available, see <a href="https://github.com/kevish-dev/marvel-counter/blob/main/LICENSE">license</a>.</span>
+    <a href="https://github.com/kevish-dev/marvel-counter">github.com/kevish-dev/marvel-counter</a>
+  </div>
+</footer>
+
+<script>
+const $=s=>document.querySelector(s);
+const origin=location.origin;
+const id=()=>{const v=$("#docid").value.trim().toLowerCase();return /^[a-z0-9][a-z0-9_-]{0,38}$/.test(v)?v:"your-id"};
+const SNIPS={
+ md:b=>`[![Visitors](${b}.svg)](${origin})`,
+ picture:b=>`<picture>\n  <source media="(prefers-color-scheme: light)" srcset="${b}.svg?theme=light">\n  <img alt="Visitors" src="${b}.svg">\n</picture>`,
+ html:b=>`<a href="${origin}">\n  <picture>\n    <source media="(prefers-color-scheme: light)" srcset="${b}.svg?theme=light">\n    <img alt="Visitors" src="${b}.svg" width="520" height="133" loading="lazy">\n  </picture>\n</a>`,
+ react:b=>`export function Visitors({ theme = "dark" }) {\n  const q = theme === "dark" ? "" : "?theme=" + theme;\n  return (\n    <a href="${origin}">\n      <img alt="Visitors" src={"${b}.svg" + q} width={520} height={133} loading="lazy" />\n    </a>\n  );\n}`,
+ url:b=>`${b}.svg`,
+ "ex-dc":b=>`${b}.svg?pack=dc&digits=5`,
+ "ex-anime":b=>`${b}.svg?pack=anime&format=compact&theme=light`,
+ marker:()=>`Visitors so far: <!-- herocount:start -->0<!-- herocount:end -->`,
+ action:()=>`name: Update visitor count\non:\n  schedule: [{ cron: "17 3 * * *" }]\n  workflow_dispatch:\npermissions:\n  contents: write\njobs:\n  update:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: kevish-dev/marvel-counter@main\n        with:\n          id: ${id()}\n      - run: |\n          git config user.name "github-actions[bot]"\n          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"\n          git diff --quiet || (git commit -am "Update visitor count" && git push)`
+};
+function fill(){const b=origin+"/c/"+id();document.querySelectorAll("[data-snip]").forEach(p=>{const f=SNIPS[p.dataset.snip];if(f)p.textContent=f(b)})}
+document.querySelectorAll(".codebox .copy").forEach(btn=>btn.onclick=()=>{const t=btn.parentElement.querySelector("pre").textContent;navigator.clipboard.writeText(t).then(()=>{const i=btn.querySelector("i");i.className="ph ph-check";setTimeout(()=>i.className="ph ph-copy",1300)}).catch(()=>{})});
+$("#prefix").textContent=location.host+"/c/";
+try{const st=JSON.parse(localStorage.getItem("herocount.v3")||"null");const ks=Object.keys(JSON.parse(localStorage.getItem("herocount.keys")||"{}"));const v=(st&&st.created)||ks[0];if(v)$("#docid").value=v}catch{}
+const q=new URLSearchParams(location.search).get("id");if(q)$("#docid").value=q.toLowerCase();
+$("#docid").addEventListener("input",fill);fill();
+/* highlight the section in view (IntersectionObserver, no scroll listeners) */
+const links=[...document.querySelectorAll(".toc a")];
+if("IntersectionObserver"in window){const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.setAttribute("aria-current",String(a.getAttribute("href")==="#"+e.target.id)))})},{rootMargin:"-30% 0px -60% 0px"});document.querySelectorAll(".doc section").forEach(s=>io.observe(s))}
+</script>
+</body>
+</html>
