@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pricing - HeroCount</title>
+<meta name="description" content="HeroCount is free to embed. Run it on your own server with a license, or talk to me about commercial use.">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%23e5484d'/%3E%3Crect x='3' y='6' width='4' height='3' fill='%23fff'/%3E%3Crect x='9' y='6' width='4' height='3' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preload" href="/fonts/geist-vf.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="/site.css">
+<style>
+.pricing-hero{padding:56px 0 40px}
+.pricing-hero h1{font:700 clamp(34px,5.6vw,64px)/1.04 "Geist",sans-serif;letter-spacing:-.04em;margin:0;max-width:16ch}
+.pricing-hero p{margin:20px 0 0;max-width:50ch;font-size:clamp(17px,2vw,20px);color:var(--mute);line-height:1.5}
+.plans{display:grid;grid-template-columns:1fr 1.22fr 1fr;gap:18px;align-items:stretch;padding:10px 0 24px}
+.plan{display:flex;flex-direction:column;padding:28px;background:var(--panel);border:var(--px) solid var(--line)}
+.plan.pro{transform:translateY(-14px);border-color:var(--text);box-shadow:10px 10px 0 var(--accent)}
+.plan h2{font:600 20px/1.2 "Geist",sans-serif;letter-spacing:-.01em;margin:0}
+.plan .price{margin:18px 0 4px;font:700 clamp(40px,4.4vw,56px)/1 "Geist",sans-serif;letter-spacing:-.04em}
+.plan .price small{font:500 15px/1 "Geist",sans-serif;color:var(--mute);letter-spacing:0;margin-left:6px}
+.plan .for{color:var(--mute);font-size:14px;margin:0 0 22px;min-height:2.9em}
+.plan ul{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:11px;font-size:15px}
+.plan li{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start}
+.plan li i{color:var(--accent);font-size:18px;margin-top:2px}
+.plan .btn{margin-top:auto;width:100%}
+.faq{max-width:760px;display:grid;gap:0;border-top:var(--px) solid var(--line)}
+.faq details{border-bottom:var(--px) solid var(--line);padding:18px 0}
+.faq summary{cursor:pointer;font:600 17px/1.4 "Geist",sans-serif;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:"Geist Mono",monospace;color:var(--accent);font-size:22px;line-height:1}
+.faq details[open] summary::after{content:"-"}
+.faq p{margin:12px 0 0;color:var(--mute);max-width:62ch}
+.faq a{color:var(--text);text-underline-offset:3px}
+@media (max-width:980px){.plans{grid-template-columns:1fr}.plan.pro{transform:none;order:-1}.plan .for{min-height:0}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="HeroCount home">Hero<b>Count</b></a>
+    <nav aria-label="Primary">
+      <a href="/#heroes">Heroes</a>
+      <a href="/#make">Make yours</a>
+      <a href="/#api">API</a>
+      <a href="/pricing" aria-current="page" style="color:var(--text)">Pricing</a>
+      <a class="gh" href="https://github.com/kevish-dev/marvel-counter"><i class="ph ph-github-logo" aria-hidden="true"></i>Source</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="pricing-hero">
+    <div class="wrap">
+      <h1 class="rise">Free to embed. Paid to run yourself.</h1>
+      <p class="rise d1">Using the hosted counter costs nothing. A license is only for running your own copy of the code.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="plans rise d2" id="plans"></div>
+  </div>
+
+  <section aria-labelledby="h-faq" style="padding-top:64px">
+    <div class="wrap">
+      <h2 id="h-faq" class="reveal">Questions people ask.</h2>
+      <div class="faq reveal" style="margin-top:28px">
+        <details><summary>Do I need a license just to put a counter on my README?</summary><p>No. Embedding images from herocount.kevish.dev is free. The "by kevish.dev" credit is part of every image and has to stay visible.</p></details>
+        <details><summary>What does a self-host license give me?</summary><p>A signed key you set as <span class="mono">HEROCOUNT_LICENSE_KEY</span> on your own server. It switches off the 7-day evaluation limit for one deployment. Updates are included for the year.</p></details>
+        <details><summary>What happens after the 7-day evaluation?</summary><p>An unlicensed self-hosted copy stops serving counters and answers with a "license required" notice. The hosted service is not affected.</p></details>
+        <details><summary>Can I remove the credit?</summary><p>Not under the standard terms. Changing the credit or branding is possible only through the commercial plan, in a written license.</p></details>
+        <details><summary>Does it count unique visitors?</summary><p>No. It counts page loads. GitHub hides visitor addresses behind its image proxy, so unique counts are not possible.</p></details>
+        <details><summary>How do I pay?</summary><p>Request a license and I will send you a key. There is no checkout yet. Read the full terms in the <a href="https://github.com/kevish-dev/marvel-counter/blob/main/LICENSE">license</a>.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Fan-made pixel art, not affiliated with Marvel. Built by <a href="https://kevish.dev">Kevish</a>. Source-available, see <a href="https://github.com/kevish-dev/marvel-counter/blob/main/LICENSE">license</a>.</span>
+    <a href="https://github.com/kevish-dev/marvel-counter">github.com/kevish-dev/marvel-counter</a>
+  </div>
+</footer>
+
+<script>
+/* Edit prices and features here. Everything on the page renders from this block. */
+const PLANS=[
+ {name:"Hosted",price:"$0",unit:"forever",for:"Embed the counter on your README, profile or site.",
+  features:["Unlimited reads on every counter you create","Dark, light, match-system or transparent","3 to 9 digits, any hero order","JSON endpoint for your own pages","The by kevish.dev credit stays on"],
+  cta:"Make a counter",href:"/#make",ghost:true},
+ {name:"Self-host",price:"$49",unit:"per year",for:"Run your own copy on your server or VPS.",pro:true,
+  features:["Signed license key, no evaluation limit","One deployment, with your own domain and Redis","Updates for the year","Same hero art and animations","The by kevish.dev credit stays on"],
+  cta:"Request a license",href:"https://kevish.dev"},
+ {name:"Commercial",price:"Let's talk",unit:"",for:"Resale, agencies, or changing the credit and branding.",
+  features:["Written license with terms we agree on","Custom credit or branding by agreement","Multiple deployments","Priority support","New hero packs, scoped per project"],
+  cta:"Request a license",href:"https://kevish.dev",ghost:true}
+];
+const box=document.getElementById("plans");
+for(const p of PLANS){
+ const a=document.createElement("article");a.className="plan"+(p.pro?" pro":"");
+ const h=document.createElement("h2");h.textContent=p.name;
+ const pr=document.createElement("div");pr.className="price";pr.textContent=p.price;
+ if(p.unit){const u=document.createElement("small");u.textContent=p.unit;pr.append(u)}
+ const f=document.createElement("p");f.className="for";f.textContent=p.for;
+ const ul=document.createElement("ul");
+ for(const t of p.features){const li=document.createElement("li");const i=document.createElement("i");i.className="ph ph-check";i.setAttribute("aria-hidden","true");const s=document.createElement("span");s.textContent=t;li.append(i,s);ul.append(li)}
+ const btn=document.createElement("a");btn.className="btn"+(p.ghost?" ghost":"");btn.href=p.href;btn.textContent=p.cta;
+ a.append(h,pr,f,ul,btn);box.append(a)}
+if("IntersectionObserver"in window&&!matchMedia("(prefers-reduced-motion: reduce)").matches){
+ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});
+ document.querySelectorAll(".reveal").forEach(el=>io.observe(el))}
+else document.querySelectorAll(".reveal").forEach(el=>el.classList.add("in"));
+</script>
+</body>
+</html>

@@ -15,12 +15,12 @@ with small CSS animations. Served as an SVG from a Vercel function; the count li
    - `UPSTASH_REDIS_REST_URL`
    - `UPSTASH_REDIS_REST_TOKEN`
    (The Vercel Storage integration adds `KV_REST_API_URL` / `KV_REST_API_TOKEN`, which also work.)
-4. Redeploy, then open `https://<project>.vercel.app/count.svg`. Each load adds 1.
+4. Redeploy, then open `https://herocount.kevish.dev/count.svg`. Each load adds 1.
 
 ## Embed
     <picture>
-      <source media="(prefers-color-scheme: light)" srcset="https://<project>.vercel.app/count.svg?theme=light">
-      <img alt="Visitors" src="https://<project>.vercel.app/count.svg">
+      <source media="(prefers-color-scheme: light)" srcset="https://herocount.kevish.dev/count.svg?theme=light">
+      <img alt="Visitors" src="https://herocount.kevish.dev/count.svg">
     </picture>
 
 ## Options
