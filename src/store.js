@@ -28,7 +28,14 @@ class UpstashStore {
     if (!r.ok) throw new Error(`redis ${r.status}`);
     return (await r.json()).result;
   }
-  async hit(id) { const v = Number(await this.cmd(["EVAL", HIT_LUA, "1", keyFor(id)])); return v < 0 ? null : v; }
+  async hit(id) {
+    const k = keyFor(id);
+    try { const v = Number(await this.cmd(["EVAL", HIT_LUA, "1", k])); return v < 0 ? null : v; }
+    catch { // EVAL unavailable on this plan: two-step fallback (tiny race window only matters for brand-new ids)
+      if ((await this.cmd(["EXISTS", k])) !== 1) return null;
+      return Number(await this.cmd(["INCR", k]));
+    }
+  }
   async peek(id) { const v = await this.cmd(["GET", keyFor(id)]); return v == null ? null : Number(v) || 0; }
   async create(id) { const ok = (await this.cmd(["SET", keyFor(id), "0", "NX"])) === "OK"; if (ok) await this.cmd(["INCR", "stat:ids"]); return ok; }
   async rateLimit(key, limit, windowSec) {
