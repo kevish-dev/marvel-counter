@@ -12,24 +12,24 @@
 <link rel="stylesheet" href="/site.css">
 <style>
 .pricing-hero{padding:56px 0 40px}
-.pricing-hero h1{font:700 clamp(34px,5.6vw,64px)/1.04 "Geist",sans-serif;letter-spacing:-.04em;margin:0;max-width:16ch}
+.pricing-hero h1{font:600 clamp(34px,5.6vw,64px)/1.04 "Geist",sans-serif;letter-spacing:-.035em;margin:0;max-width:16ch}
 .pricing-hero p{margin:20px 0 0;max-width:50ch;font-size:clamp(17px,2vw,20px);color:var(--mute);line-height:1.5}
-.plans{display:grid;grid-template-columns:1fr 1.22fr 1fr;gap:18px;align-items:stretch;padding:10px 0 24px}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch;padding:10px 0 24px}
 .plan{display:flex;flex-direction:column;padding:28px;background:var(--panel);border:var(--px) solid var(--line)}
-.plan.pro{transform:translateY(-14px);border-color:var(--text);box-shadow:10px 10px 0 var(--accent)}
+.plan.pro{border-color:var(--text)}
 .plan h2{font:600 20px/1.2 "Geist",sans-serif;letter-spacing:-.01em;margin:0}
-.plan .price{margin:18px 0 4px;font:700 clamp(40px,4.4vw,56px)/1 "Geist",sans-serif;letter-spacing:-.04em}
+.plan .price{margin:18px 0 4px;font:600 clamp(40px,4.4vw,56px)/1 "Geist",sans-serif;letter-spacing:-.035em}
 .plan .price small{font:500 15px/1 "Geist",sans-serif;color:var(--mute);letter-spacing:0;margin-left:6px}
 .plan .for{color:var(--mute);font-size:14px;margin:0 0 22px;min-height:2.9em}
 .plan ul{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:11px;font-size:15px}
 .plan li{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start}
-.plan li i{color:var(--accent);font-size:18px;margin-top:2px}
+.plan li i{color:var(--text);font-size:18px;margin-top:2px}
 .plan .btn{margin-top:auto;width:100%}
 .faq{max-width:760px;display:grid;gap:0;border-top:var(--px) solid var(--line)}
 .faq details{border-bottom:var(--px) solid var(--line);padding:18px 0}
 .faq summary{cursor:pointer;font:600 17px/1.4 "Geist",sans-serif;list-style:none;display:flex;justify-content:space-between;gap:16px}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";font-family:"Geist Mono",monospace;color:var(--accent);font-size:22px;line-height:1}
+.faq summary::after{content:"+";font-family:"Geist Mono",monospace;color:var(--text);font-size:22px;line-height:1}
 .faq details[open] summary::after{content:"-"}
 .faq p{margin:12px 0 0;color:var(--mute);max-width:62ch}
 .faq a{color:var(--text);text-underline-offset:3px}
@@ -41,8 +41,8 @@
   <div class="wrap">
     <a class="logo" href="/" aria-label="HeroCount home">Hero<b>Count</b></a>
     <nav aria-label="Primary">
-      <a href="/#heroes">Heroes</a>
       <a href="/#make">Make yours</a>
+      <a href="/#heroes">Heroes</a>
       <a href="/dashboard">Dashboard</a>
       <a href="/integrations">Integrations</a>
       <a href="/pricing" aria-current="page" style="color:var(--text)">Pricing</a>

@@ -10,7 +10,7 @@ test("renders 7 heroes in the chosen order, valid structure", () => {
   assert.deepEqual([...svg.matchAll(/data-hero="([^"]+)"/g)].map((m) => m[1]), ["spider-man", "iron-man", "spider-man", "iron-man"]);
   assert.ok(svg.startsWith("<svg") && svg.endsWith("</svg>"));
 });
-test("default lineup is the classic seven; catalog has all packs", () => { assert.equal(HERO_IDS.length, 25); assert.equal((renderCounter(1).match(/data-hero=/g) || []).length, 7); });
+test("default lineup is the classic seven; catalog has all packs", () => { assert.equal(HERO_IDS.length, 39); assert.equal((renderCounter(1).match(/data-hero=/g) || []).length, 7); });
 test("digits clamp 3..9 and pad", () => {
   assert.equal((renderCounter(5, { digits: 99 }).match(/data-hero=/g) || []).length, 9);
   assert.equal((renderCounter(5, { digits: 1 }).match(/data-hero=/g) || []).length, 3);

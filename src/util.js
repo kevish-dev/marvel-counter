@@ -11,7 +11,7 @@ export function normalizeId(raw) {
   return { ok: true, id };
 }
 
-export const PACK_IDS = ["classic", "marvel", "retro", "critters"];
+export const PACK_IDS = ["classic", "marvel", "dc", "anime", "retro", "critters"];
 export function parseOptions(searchParams) {
   const t = searchParams.get("theme");
   const theme = t === "light" || t === "auto" || t === "clear" ? t : "dark";

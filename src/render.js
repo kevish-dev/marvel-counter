@@ -5,6 +5,8 @@ import { CLASSIC } from "./heroes/classic.js";
 import { MARVEL2 } from "./heroes/marvel2.js";
 import { RETRO } from "./heroes/retro.js";
 import { CRITTERS } from "./heroes/critters.js";
+import { DC } from "./heroes/dc.js";
+import { ANIME } from "./heroes/anime.js";
 
 const LABELS = { "black-panther": "Black Panther", "captain-america": "Captain America", thor: "Thor", hulk: "Hulk", "doctor-strange": "Doctor Strange", "spider-man": "Spider-Man", "iron-man": "Iron Man" };
 const TRICKS = { "black-panther": "Suit lines pulse", "captain-america": "Shield catches the light", thor: "Calls down lightning", hulk: "Breathes, then rages", "doctor-strange": "Spins his rings", "spider-man": "Shoots a web, blinks", "iron-man": "Fires the boot jets" };
@@ -12,11 +14,11 @@ const ORDER = ["black-panther", "captain-america", "thor", "hulk", "doctor-stran
 const classic = [...CLASSIC].sort((x, y) => ORDER.indexOf(x.name) - ORDER.indexOf(y.name)).map((h) => ({ ...h, label: LABELS[h.name], trick: TRICKS[h.name], pack: "marvel" }));
 
 // packs: classic is the default lineup (the original seven, in order). "marvel" adds four more.
-export const PACKS = { classic, marvel: [...classic, ...MARVEL2], retro: RETRO, critters: CRITTERS };
-const ALL = [...classic, ...MARVEL2, ...RETRO, ...CRITTERS];
+export const PACKS = { classic, marvel: [...classic, ...MARVEL2], dc: DC, anime: ANIME, retro: RETRO, critters: CRITTERS };
+const ALL = [...classic, ...MARVEL2, ...DC, ...ANIME, ...RETRO, ...CRITTERS];
 export const HERO_CATALOG = ALL.map((h) => ({ id: h.name, label: h.label, pack: h.pack, trick: h.trick }));
 export const HERO_IDS = ALL.map((h) => h.name);
-const ALIASES = { panther: "black-panther", bp: "black-panther", cap: "captain-america", captain: "captain-america", strange: "doctor-strange", doctor: "doctor-strange", spidey: "spider-man", spiderman: "spider-man", ironman: "iron-man", iron: "iron-man", wanda: "scarlet-witch", scarlet: "scarlet-witch", dp: "deadpool", wizard: "wizard", bunny: "bunny", rabbit: "bunny" };
+const ALIASES = { panther: "black-panther", bp: "black-panther", cap: "captain-america", captain: "captain-america", strange: "doctor-strange", doctor: "doctor-strange", spidey: "spider-man", spiderman: "spider-man", ironman: "iron-man", iron: "iron-man", wanda: "scarlet-witch", scarlet: "scarlet-witch", dp: "deadpool", wizard: "wizard", bunny: "bunny", rabbit: "bunny", bats: "batman", supes: "superman", ww: "wonder-woman", wonderwoman: "wonder-woman", gl: "green-lantern", "the-flash": "flash", sailor: "sailor-moon", sailormoon: "sailor-moon" };
 export const resolveHero = (n) => { const k = String(n).toLowerCase().trim(); const id = ALIASES[k] || k; return ALL.find((h) => h.name === id); };
 
 const CSS = `

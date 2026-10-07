@@ -8,7 +8,7 @@
 <meta name="color-scheme" content="dark light">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%23e5484d'/%3E%3Crect x='3' y='6' width='4' height='3' fill='%23fff'/%3E%3Crect x='9' y='6' width='4' height='3' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preload" href="/fonts/geist-vf.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/preview.svg?n=3827415" as="image" fetchpriority="high">
+<link rel="preload" href="/preview.svg?n=3827415&theme=auto" as="image" fetchpriority="high">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
 <link rel="stylesheet" href="/site.css">
 </head>
@@ -17,8 +17,8 @@
   <div class="wrap">
     <a class="logo" href="#top" aria-label="HeroCount home">Hero<b>Count</b></a>
     <nav aria-label="Primary">
-      <a href="#heroes">Heroes</a>
       <a href="#make">Make yours</a>
+      <a href="#heroes">Heroes</a>
       <a href="#api">API</a>
       <a href="/dashboard">Dashboard</a>
       <a href="/integrations">Integrations</a>
@@ -31,25 +31,17 @@
 <main id="top">
   <div class="hero">
     <div class="wrap">
-      <h1 class="rise">A visitor counter held up by <em>pixel heroes</em>.</h1>
-      <p class="sub rise d1">Free, animated, no sign-up. Pick an id, paste one line into your GitHub README, watch the heroes count.</p>
+      <h1 class="rise">A visitor counter held up by pixel heroes.</h1>
+      <p class="sub rise d1">Free and animated, with no sign-up. Pick an id, paste one line, and watch the heroes count.</p>
       <div class="cta rise d2">
         <a class="btn" href="#make">Make my counter</a>
-        <a class="btn ghost" href="#heroes">Browse heroes</a>
+        <a class="btn ghost" href="#heroes">See the heroes</a>
       </div>
-      <div class="stage rise d3"><img src="/preview.svg?n=3827415" width="860" height="220" alt="HeroCount showing 3827415, each digit held up by a different pixel hero" fetchpriority="high"></div>
+      <div class="stage rise d3"><img src="/preview.svg?n=3827415&theme=auto" width="860" height="220" alt="HeroCount showing 3827415, each digit held up by a different pixel hero" fetchpriority="high"></div>
     </div>
   </div>
 
-  <section id="heroes" aria-labelledby="h-heroes">
-    <div class="wrap">
-      <h2 id="h-heroes" class="reveal">Seven heroes, seven small tricks.</h2>
-      <p class="lede reveal">Each one holds a digit and does one thing on a loop. Pick any order, or let them cycle.</p>
-      <div class="bento reveal" id="bento"></div>
-    </div>
-  </section>
-
-  <section id="make" aria-labelledby="h-make" style="padding-top:24px">
+  <section id="make" aria-labelledby="h-make">
     <div class="wrap">
       <h2 id="h-make" class="reveal">Make yours in a minute.</h2>
       <p class="lede reveal">Counts page loads, not unique people. Your count starts at zero.</p>
@@ -86,7 +78,7 @@
           <div class="field">
             <span class="t" id="pack-l">Hero pack</span>
             <div class="seg" role="group" aria-labelledby="pack-l" id="pack">
-              <button data-v="classic" aria-pressed="true">Classic 7</button><button data-v="marvel" aria-pressed="false">Marvel 11</button><button data-v="retro" aria-pressed="false">Retro</button><button data-v="critters" aria-pressed="false">Critters</button>
+              <button data-v="classic" aria-pressed="true">Classic 7</button><button data-v="marvel" aria-pressed="false">Marvel 11</button><button data-v="dc" aria-pressed="false">DC</button><button data-v="anime" aria-pressed="false">Anime</button><button data-v="retro" aria-pressed="false">Retro</button><button data-v="critters" aria-pressed="false">Critters</button>
             </div>
           </div>
           <div class="field">
@@ -102,7 +94,7 @@
         </div>
 
         <div class="preview">
-          <div class="view" id="view"><img id="preview" alt="Live preview of your counter" width="860" height="220"></div>
+          <div class="view" id="view"><img id="preview" src="/preview.svg?theme=auto" alt="Live preview of your counter" width="860" height="220"></div>
           <div class="tabs" role="tablist" aria-label="Snippet format">
             <button role="tab" aria-selected="true" data-tab="md">Markdown</button>
             <button role="tab" aria-selected="false" data-tab="html">HTML, dark + light</button>
@@ -119,7 +111,15 @@
     </div>
   </section>
 
-  <section id="api" aria-labelledby="h-api" style="padding-top:24px">
+  <section id="heroes" aria-labelledby="h-heroes">
+    <div class="wrap">
+      <h2 id="h-heroes" class="reveal">Seven heroes, seven small tricks.</h2>
+      <p class="lede reveal">Each one holds a digit and does one thing on a loop. Pick any order, or let them cycle.</p>
+      <div class="bento reveal" id="bento"></div>
+    </div>
+  </section>
+
+  <section id="api" aria-labelledby="h-api">
     <div class="wrap api">
       <div class="reveal">
         <h2 id="h-api">Works anywhere an image does.</h2>
@@ -160,7 +160,7 @@ const TILES=[
  ["black-panther","Black Panther","Suit lines pulse","t6","600"],
  ["doctor-strange","Doctor Strange","Spins his rings","t7","700"]
 ];
-const PACK_TITLES={marvel:"Marvel",retro:"Retro",critters:"Critters"};
+const PACK_TITLES={marvel:"Marvel",dc:"DC",anime:"Anime",retro:"Retro",critters:"Critters"};
 let CATALOG=[["spider-man","Spider-Man","marvel"],["iron-man","Iron Man","marvel"],["captain-america","Captain America","marvel"],["thor","Thor","marvel"],["hulk","Hulk","marvel"],["black-panther","Black Panther","marvel"],["doctor-strange","Doctor Strange","marvel"]];
 const $=s=>document.querySelector(s);
 const origin=location.origin;
@@ -173,7 +173,7 @@ const pick=(v,list,d)=>list.includes(v)?v:d;
 const restore=()=>{try{const r=JSON.parse(localStorage.getItem(KEY)||"null");if(!r)return;
   state.theme=pick(r.theme,["dark","light","auto","clear"],"dark");
   state.format=pick(r.format,["plain","sep","compact"],"plain");
-  state.pack=pick(r.pack,["classic","marvel","retro","critters"],"classic");
+  state.pack=pick(r.pack,["classic","marvel","dc","anime","retro","critters"],"classic");
   state.tab=pick(r.tab,["md","html","badge","shields","json"],"md");
   if(r.digits>=3&&r.digits<=9)state.digits=+r.digits;
   if(Array.isArray(r.heroes))state.heroes=r.heroes.filter(h=>typeof h==="string"&&/^[a-z-]{2,20}$/.test(h)).slice(0,9);

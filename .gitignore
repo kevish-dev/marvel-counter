@@ -6,3 +6,5 @@ out
 *.bak
 *.pem
 .herocount/
+.impeccable/review/
+.impeccable/mocks/
