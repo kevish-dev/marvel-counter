@@ -37,7 +37,9 @@ written license from the Licensor.
 
    When the evaluation period ends you must stop using the Software (including
    running, hosting, deploying, modifying or distributing it) and delete your
-   copies, unless the Licensor has granted you a written license. Ask at
+   copies, unless the Licensor has granted you a written license. A license key
+   issued by the Licensor and set as HEROCOUNT_LICENSE_KEY is such a license, for
+   the licensee named in the key and for the term stated in it. Ask at
    https://kevish.dev. The Licensor may set the terms and price of any license
    and may decline to grant one.
 
@@ -58,8 +60,8 @@ written license from the Licensor.
    You may not: (a) sublicense, sell or redistribute the Software; (b) offer the
    Software or a derivative as a hosted or competing service without a written
    license; (c) use the names "HeroCount" or "Kevish" or the Licensor's logos to
-   suggest endorsement or affiliation; (d) bypass or interfere with any limit,
-   protection or credit in the Software or the Hosted Service.
+   suggest endorsement or affiliation; (d) bypass, disable or interfere with any limit,
+   protection, license check or credit in the Software or the Hosted Service.
 
 7. THIRD-PARTY CHARACTERS
 

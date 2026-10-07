@@ -45,3 +45,41 @@ test("memory store: create, hit, peek, legacy alias, rate limit", async () => {
   const r = []; for (let i = 0; i < 4; i++) r.push(await s.rateLimit("k", 3, 60));
   assert.deepEqual(r, [true, true, true, false]);
 });
+
+import crypto from "node:crypto";
+import { signKey, verifyKey, isOfficial, licenseStatus, _resetLicenseCache, TRIAL_DAYS, PUBLIC_KEY_PEM } from "../src/license.js";
+const kp = crypto.generateKeyPairSync("ed25519");
+const priv = kp.privateKey.export({ type: "pkcs8", format: "pem" });
+const pub = kp.publicKey.export({ type: "spki", format: "pem" });
+
+test("license key: valid, tampered, expired, wrong key, garbage", () => {
+  const good = signKey({ sub: "Acme", plan: "standard" }, priv);
+  assert.equal(verifyKey(good, Date.now(), pub).ok, true);
+  assert.equal(verifyKey(good, Date.now(), pub).licensee, "Acme");
+  const [t, p, s] = good.split(".");
+  const forged = `${t}.${Buffer.from(JSON.stringify({ v: 1, sub: "Evil", plan: "standard" })).toString("base64url")}.${s}`;
+  assert.equal(verifyKey(forged, Date.now(), pub).ok, false);
+  const old = signKey({ sub: "Acme", exp: new Date(Date.now() - 1000).toISOString() }, priv);
+  assert.equal(verifyKey(old, Date.now(), pub).reason, "expired");
+  assert.equal(verifyKey(good).ok, false); // not signed by the embedded public key
+  for (const bad of ["", "x", "hc1.a", "hc1.a.b.c", null]) assert.equal(verifyKey(bad, Date.now(), pub).ok, false);
+  assert.ok(PUBLIC_KEY_PEM.includes("BEGIN PUBLIC KEY"));
+});
+test("official deployment is recognised, forks are not", () => {
+  assert.equal(isOfficial({ VERCEL_GIT_REPO_OWNER: "kevish-dev", VERCEL_GIT_REPO_SLUG: "marvel-counter" }), true);
+  assert.equal(isOfficial({ VERCEL_GIT_REPO_OWNER: "someone", VERCEL_GIT_REPO_SLUG: "marvel-counter" }), false);
+  assert.equal(isOfficial({}), false);
+});
+test("evaluation: 7 days then expired, key licenses, official exempt", async () => {
+  const s = new _internals.MemoryStore();
+  const t0 = 1_700_000_000_000, day = 86400000;
+  const base = { env: {}, store: s, noCache: true };
+  assert.equal((await licenseStatus({ ...base, now: t0 })).mode, "trial");
+  assert.equal((await licenseStatus({ ...base, now: t0 + 3 * day })).daysLeft, 4);
+  const after = await licenseStatus({ ...base, now: t0 + TRIAL_DAYS * day + 1 });
+  assert.equal(after.ok, false); assert.equal(after.mode, "expired");
+  // an invalid key does not rescue an expired copy
+  assert.equal((await licenseStatus({ ...base, env: { HEROCOUNT_LICENSE_KEY: "hc1.bad.bad" }, now: t0 + 9 * day })).ok, false);
+  assert.equal((await licenseStatus({ ...base, env: { VERCEL_GIT_REPO_OWNER: "kevish-dev", VERCEL_GIT_REPO_SLUG: "marvel-counter" }, now: t0 + 99 * day })).mode, "official");
+  _resetLicenseCache();
+});

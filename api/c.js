@@ -1,6 +1,7 @@
 import { renderCounter, renderNotFound } from "../src/render.js";
 import { getStore } from "../src/store.js";
 import { normalizeId, parseOptions, sendSvg, sendJson } from "../src/util.js";
+import { gate } from "../src/license.js";
 
 // GET /c/:id.svg   -> animated counter, +1 per GET (HEAD and ?peek=1 only read)
 // GET /c/:id.json  -> { id, count } read-only, CORS open
@@ -9,6 +10,7 @@ export default async function handler(req, res) {
   const wantJson = url.searchParams.get("format") === "json";
   const n = normalizeId(url.searchParams.get("id"));
   const opts = parseOptions(url.searchParams);
+  if (!(await gate(req, res, { kind: wantJson ? "json" : "svg", theme: opts.theme === "light" ? "light" : "dark" }))) return;
   if (!n.ok) return wantJson ? sendJson(res, 400, { error: n.error }) : sendSvg(res, renderNotFound("invalid", opts.theme === "light" ? "light" : "dark"), { cache: true });
 
   const store = getStore();

@@ -41,3 +41,15 @@ HeroCount is **source-available, not open source**. See [LICENSE](LICENSE).
 - The credit must be kept in every use, including licensed ones.
 
 The pixel figures are fan-made tributes and are not affiliated with Marvel.
+
+### Self-hosting and license keys
+
+The server checks its license on every request (`src/license.js`):
+
+1. **Official deployment** (this repo's Vercel project): always allowed.
+2. **Valid key:** set `HEROCOUNT_LICENSE_KEY` to the key you received. Keys are signed (Ed25519) and name the licensee. Without a valid signature a key is ignored.
+3. **Otherwise:** a 7-day evaluation starts at the first request the copy serves. Responses carry `X-HeroCount-License: trial; N d left`. After that, counters, the API and previews answer `402` with a "license required" notice.
+
+The credit is never turned off by a key.
+
+Licensor only: `node scripts/issue-license.mjs --to "Licensee" [--days 365]` signs a key with the private key in `~/.herocount/license-private.pem` (never commit it).

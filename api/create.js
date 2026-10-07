@@ -1,5 +1,6 @@
 import { getStore } from "../src/store.js";
 import { normalizeId, sendJson, clientIp } from "../src/util.js";
+import { gate } from "../src/license.js";
 
 const PER_IP_PER_HOUR = Number(process.env.CREATE_PER_IP_PER_HOUR || 10);
 const MAX_IDS = Number(process.env.MAX_IDS || 50000);
@@ -8,6 +9,7 @@ const MAX_IDS = Number(process.env.MAX_IDS || 50000);
 export default async function handler(req, res) {
   if (req.method === "OPTIONS") { res.setHeader("Access-Control-Allow-Origin", "*"); res.setHeader("Access-Control-Allow-Methods", "POST"); res.setHeader("Access-Control-Allow-Headers", "content-type"); res.statusCode = 204; return res.end(); }
   if (req.method !== "POST") return sendJson(res, 405, { error: "POST only" });
+  if (!(await gate(req, res, { kind: "json" }))) return;
   let body = req.body;
   if (typeof body === "string") { try { body = JSON.parse(body); } catch { body = {}; } }
   if (!body && req.on) body = await new Promise((ok) => { let d = ""; req.on("data", (c) => (d += c)); req.on("end", () => { try { ok(JSON.parse(d)); } catch { ok({}); } }); });

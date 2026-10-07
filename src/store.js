@@ -19,6 +19,7 @@ class MemoryStore {
     e.n++; return e.n <= limit;
   }
   async total() { return this.m.size; }
+  async firstRun(now) { return (this.first ??= now); }
 }
 
 class UpstashStore {
@@ -44,6 +45,10 @@ class UpstashStore {
     return n <= limit;
   }
   async total() { return Number(await this.cmd(["GET", "stat:ids"])) || 0; }
+  async firstRun(now) {
+    await this.cmd(["SET", "meta:first_run", String(now), "NX"]);
+    return Number(await this.cmd(["GET", "meta:first_run"])) || now;
+  }
 }
 
 let store;
