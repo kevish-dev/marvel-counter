@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-07T19:40:00Z",
+  "title": "Design System: HeroCount",
+  "extensions": {
+    "colorMeta": {
+      "accent": { "role": "primary", "displayName": "Signal Red", "canonical": "#e5484d", "cssVar": "--accent", "darkPair": "accent-dark", "tonalRamp": ["oklch(25% 0.09 22)", "oklch(35% 0.13 22)", "oklch(45% 0.17 22)", "oklch(55% 0.19 22)", "oklch(63% 0.19 22)", "oklch(72% 0.15 22)", "oklch(83% 0.09 22)", "oklch(94% 0.03 22)"] },
+      "accent-dark": { "role": "primary", "displayName": "Signal Red (dark mode)", "canonical": "#ff6369", "cssVar": "--accent" },
+      "paper": { "role": "neutral", "displayName": "Paper", "canonical": "#ffffff", "cssVar": "--bg / --panel", "darkPair": "paper-dark", "tonalRamp": ["#0a0a0a", "#19191b", "#3a3a40", "#666666", "#a1a1aa", "#cfcfd3", "#f4f4f5", "#ffffff"] },
+      "paper-subtle": { "role": "neutral", "displayName": "Paper Subtle", "canonical": "#fafafa", "cssVar": "--bg-2", "darkPair": "paper-subtle-dark" },
+      "panel-recessed": { "role": "neutral", "displayName": "Recessed Panel", "canonical": "#f4f4f5", "cssVar": "--panel-2", "darkPair": "panel-recessed-dark" },
+      "hairline": { "role": "neutral", "displayName": "Hairline", "canonical": "#e5e5e5", "cssVar": "--line", "darkPair": "hairline-dark" },
+      "hairline-strong": { "role": "neutral", "displayName": "Strong Hairline", "canonical": "#cfcfd3", "cssVar": "--line-strong", "darkPair": "hairline-strong-dark" },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#0a0a0a", "cssVar": "--text", "darkPair": "ink-dark" },
+      "mute": { "role": "neutral", "displayName": "Mute", "canonical": "#666666", "cssVar": "--mute", "darkPair": "mute-dark" },
+      "focus-blue": { "role": "functional", "displayName": "Focus Blue", "canonical": "#2563eb", "cssVar": "--focus", "darkPair": "focus-blue-dark" },
+      "ok-green": { "role": "functional", "displayName": "OK Green", "canonical": "#15803d", "cssVar": "--ok / --tok-s", "darkPair": "ok-green-dark" },
+      "err-red": { "role": "functional", "displayName": "Error Red", "canonical": "#c8102e", "cssVar": "--err / --tok-k", "darkPair": "err-red-dark" },
+      "paper-dark": { "role": "neutral", "displayName": "Paper (dark mode)", "canonical": "#0a0a0a", "cssVar": "--bg" },
+      "paper-subtle-dark": { "role": "neutral", "displayName": "Paper Subtle (dark mode)", "canonical": "#101011", "cssVar": "--bg-2 / --panel" },
+      "panel-recessed-dark": { "role": "neutral", "displayName": "Recessed Panel (dark mode)", "canonical": "#19191b", "cssVar": "--panel-2" },
+      "hairline-dark": { "role": "neutral", "displayName": "Hairline (dark mode)", "canonical": "#26262a", "cssVar": "--line" },
+      "hairline-strong-dark": { "role": "neutral", "displayName": "Strong Hairline (dark mode)", "canonical": "#3a3a40", "cssVar": "--line-strong" },
+      "ink-dark": { "role": "neutral", "displayName": "Ink (dark mode)", "canonical": "#ededed", "cssVar": "--text" },
+      "mute-dark": { "role": "neutral", "displayName": "Mute (dark mode)", "canonical": "#a1a1aa", "cssVar": "--mute" },
+      "focus-blue-dark": { "role": "functional", "displayName": "Focus Blue (dark mode)", "canonical": "#7aa8ff", "cssVar": "--focus" },
+      "ok-green-dark": { "role": "functional", "displayName": "OK Green (dark mode)", "canonical": "#4ade80", "cssVar": "--ok" },
+      "err-red-dark": { "role": "functional", "displayName": "Error Red (dark mode)", "canonical": "#ff8b8f", "cssVar": "--err / --tok-k" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "One left-aligned page headline per page; inner pages use a 32 to 56px clamp with the same weight and tracking." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings, max 24ch, balanced wrap." },
+      "metric": { "displayName": "Metric", "purpose": "KPI numbers on dashboard and admin; pricing figures share the treatment up to 56px." },
+      "title": { "displayName": "Title", "purpose": "Panel, chart and table headings inside containers." },
+      "lead": { "displayName": "Lead", "purpose": "The muted sentence under a page headline; section ledes at 17px." },
+      "body": { "displayName": "Body", "purpose": "Running text, tabular numerals on by default." },
+      "label": { "displayName": "Label", "purpose": "Buttons, field labels, nav links; 13px for segments, chips and tabs." },
+      "caption": { "displayName": "Caption", "purpose": "Hints, tile descriptions, KPI captions, in mute." },
+      "code": { "displayName": "Code", "purpose": "Snippet and terminal blocks." },
+      "code-input": { "displayName": "Code Input", "purpose": "Id and key fields where the user types a literal value." }
+    },
+    "shadows": [],
+    "borders": [
+      { "name": "hairline", "value": "1px solid var(--line)", "purpose": "Structural separation: containers, nav, footer, tables, tab baseline." },
+      { "name": "hairline-strong", "value": "1px solid var(--line-strong)", "purpose": "Interactive controls at rest." },
+      { "name": "focus-ring", "value": "outline: 2px solid var(--focus); outline-offset: 3px", "purpose": "Global focus-visible treatment; inputs use a 2px offset." }
+    ],
+    "motion": [
+      { "name": "ease-out-expo", "value": "cubic-bezier(.16,1,.3,1)", "purpose": "Entrance rise and scroll reveal." },
+      { "name": "rise", "value": "opacity 0 to 1, translateY(8px) to 0, 0.55s, 60ms stagger", "purpose": "Above-the-fold entrance; disabled under reduced motion." },
+      { "name": "reveal", "value": "opacity 0 to 1, translateY(10px) to 0, 0.55s", "purpose": "Section reveal on scroll; disabled under reduced motion." },
+      { "name": "control-feedback", "value": "opacity .15s ease, transform .1s ease, border-color .15s", "purpose": "Button hover fade and 1px press." }
+    ],
+    "breakpoints": [
+      { "name": "phone", "value": "560px" },
+      { "name": "tablet-panels", "value": "860px" },
+      { "name": "stack", "value": "900px" },
+      { "name": "pricing-stack", "value": "980px" },
+      { "name": "lineup-4", "value": "1000px" },
+      { "name": "container", "value": "1080px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Solid ink button for the one main action in a view.",
+      "html": "<button class=\"ds-btn\">Make my counter</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 18px; font: 500 14px/1 \"Geist\", sans-serif; border: 1px solid var(--text, #0a0a0a); border-radius: 8px; background: var(--text, #0a0a0a); color: var(--bg, #ffffff); cursor: pointer; transition: opacity .15s ease, transform .1s ease, border-color .15s; } .ds-btn:hover { opacity: .86; } .ds-btn:active { transform: translateY(1px); } .ds-btn:focus-visible { outline: 2px solid var(--focus, #2563eb); outline-offset: 3px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Outlined secondary action; borders in ink on hover.",
+      "html": "<button class=\"ds-btn-ghost\">See the heroes</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 18px; font: 500 14px/1 \"Geist\", sans-serif; border: 1px solid var(--line-strong, #cfcfd3); border-radius: 8px; background: transparent; color: var(--text, #0a0a0a); cursor: pointer; transition: border-color .15s, transform .1s ease; } .ds-btn-ghost:hover { border-color: var(--text, #0a0a0a); } .ds-btn-ghost:active { transform: translateY(1px); } .ds-btn-ghost:focus-visible { outline: 2px solid var(--focus, #2563eb); outline-offset: 3px; }"
+    },
+    {
+      "name": "Id Input",
+      "kind": "input",
+      "refersTo": "input-id",
+      "description": "Prefixed monospace field for the counter id.",
+      "html": "<div class=\"ds-idbox\"><span>/c/</span><input placeholder=\"your-github-name\" aria-label=\"Your id\"></div>",
+      "css": ".ds-idbox { display: flex; height: 40px; border: 1px solid var(--line-strong, #cfcfd3); border-radius: 8px; background: var(--bg, #ffffff); overflow: hidden; } .ds-idbox:focus-within { border-color: var(--text, #0a0a0a); outline: 2px solid var(--focus, #2563eb); outline-offset: 2px; } .ds-idbox span { display: flex; align-items: center; padding: 0 12px; color: var(--mute, #666666); font: 400 13px \"Geist Mono\", monospace; border-right: 1px solid var(--line, #e5e5e5); background: var(--bg-2, #fafafa); } .ds-idbox input { flex: 1; min-width: 0; background: transparent; border: 0; color: var(--text, #0a0a0a); font: 500 15px/1 \"Geist Mono\", monospace; padding: 0 12px; } .ds-idbox input:focus-visible { outline: 0; } .ds-idbox input::placeholder { color: var(--mute, #666666); }"
+    },
+    {
+      "name": "Segmented Control",
+      "kind": "custom",
+      "refersTo": "segmented-option",
+      "description": "Single-choice option group; the pressed option fills with ink.",
+      "html": "<div class=\"ds-seg\" role=\"group\"><button aria-pressed=\"true\">Dark</button><button aria-pressed=\"false\">Light</button><button aria-pressed=\"false\">Match system</button></div>",
+      "css": ".ds-seg { display: inline-flex; border: 1px solid var(--line-strong, #cfcfd3); border-radius: 8px; overflow: hidden; } .ds-seg button { font: 500 13px/1 \"Geist\", sans-serif; height: 34px; padding: 0 14px; border: 0; background: transparent; color: var(--text, #0a0a0a); cursor: pointer; } .ds-seg button + button { border-left: 1px solid var(--line, #e5e5e5); } .ds-seg button[aria-pressed=true] { background: var(--text, #0a0a0a); color: var(--bg, #ffffff); } .ds-seg button:not([aria-pressed=true]):hover { background: var(--panel-2, #f4f4f5); } .ds-seg button:focus-visible { outline: 2px solid var(--focus, #2563eb); outline-offset: -2px; }"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Toggleable hero pick with an optional ink order badge.",
+      "html": "<button class=\"ds-chip\" aria-pressed=\"true\"><b>1</b>Spider-Man</button><button class=\"ds-chip\" aria-pressed=\"false\">Hulk</button>",
+      "css": ".ds-chip { font: 500 13px/1 \"Geist\", sans-serif; height: 32px; border: 1px solid var(--line-strong, #cfcfd3); background: var(--bg, #ffffff); color: var(--text, #0a0a0a); padding: 0 12px; border-radius: 8px; cursor: pointer; display: inline-flex; gap: 8px; align-items: center; margin-right: 8px; } .ds-chip:hover { border-color: var(--text, #0a0a0a); } .ds-chip[aria-pressed=true] { border-color: var(--text, #0a0a0a); background: var(--panel-2, #f4f4f5); } .ds-chip b { background: var(--text, #0a0a0a); color: var(--bg, #ffffff); min-width: 18px; height: 18px; border-radius: 4px; display: inline-grid; place-items: center; font-size: 11px; font-weight: 600; } .ds-chip:focus-visible { outline: 2px solid var(--focus, #2563eb); outline-offset: 3px; }"
+    },
+    {
+      "name": "Tabs",
+      "kind": "nav",
+      "refersTo": "tab",
+      "description": "Snippet format switcher on a hairline baseline with an ink underline.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\"><button role=\"tab\" aria-selected=\"true\">Markdown</button><button role=\"tab\" aria-selected=\"false\">HTML</button><button role=\"tab\" aria-selected=\"false\">JSON</button></div>",
+      "css": ".ds-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line, #e5e5e5); } .ds-tabs button { font: 500 13px/1 \"Geist\", sans-serif; padding: 10px 12px; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; background: transparent; color: var(--mute, #666666); cursor: pointer; } .ds-tabs button:hover { color: var(--text, #0a0a0a); } .ds-tabs button[aria-selected=true] { color: var(--text, #0a0a0a); border-bottom-color: var(--text, #0a0a0a); } .ds-tabs button:focus-visible { outline: 2px solid var(--focus, #2563eb); outline-offset: 2px; }"
+    },
+    {
+      "name": "Container",
+      "kind": "card",
+      "refersTo": "container",
+      "description": "Flat 12px hairline box for panels, KPIs and plans.",
+      "html": "<div class=\"ds-box\"><h3>Views per day</h3><p>Last 30 days.</p></div>",
+      "css": ".ds-box { background: var(--panel, #ffffff); border: 1px solid var(--line, #e5e5e5); border-radius: 12px; padding: 24px; color: var(--text, #0a0a0a); } .ds-box h3 { margin: 0 0 8px; font: 600 16px/1.2 \"Geist\", sans-serif; } .ds-box p { margin: 0; color: var(--mute, #666666); font-size: 13px; }"
+    },
+    {
+      "name": "Code Block",
+      "kind": "custom",
+      "refersTo": "code-block",
+      "description": "Recessed monospace snippet well with a pinned copy button.",
+      "html": "<div class=\"ds-code\"><pre>![Visitors](https://herocount.kevish.dev/c/your-id.svg)</pre><button class=\"ds-copy\" aria-label=\"Copy\"><svg width=\"17\" height=\"17\" viewBox=\"0 0 256 256\" fill=\"currentColor\"><path d=\"M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z\"/></svg></button></div>",
+      "css": ".ds-code { position: relative; border: 1px solid var(--line, #e5e5e5); border-radius: 8px; background: var(--panel-2, #f4f4f5); } .ds-code pre { margin: 0; padding: 16px 56px 16px 16px; font: 400 13px/1.65 \"Geist Mono\", monospace; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--text, #0a0a0a); } .ds-copy { position: absolute; top: 8px; right: 8px; border: 1px solid var(--line, #e5e5e5); border-radius: 8px; background: var(--bg, #ffffff); color: var(--text, #0a0a0a); width: 36px; height: 36px; cursor: pointer; display: grid; place-items: center; } .ds-copy:hover { border-color: var(--text, #0a0a0a); } .ds-copy:focus-visible { outline: 2px solid var(--focus, #2563eb); outline-offset: 3px; }"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Sticky 56px bar with the red-square logo mark and muted links.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-logo\" href=\"#\">Hero<b>Count</b></a><nav><a href=\"#\" aria-current=\"page\">Make yours</a><a href=\"#\">Pricing</a><a class=\"ds-gh\" href=\"#\">Source</a></nav></header>",
+      "css": ".ds-nav { height: 56px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 24px; background: var(--bg, #ffffff); border-bottom: 1px solid var(--line, #e5e5e5); } .ds-logo { display: inline-flex; align-items: center; font: 600 16px/1 \"Geist\", sans-serif; letter-spacing: -.02em; text-decoration: none; color: var(--text, #0a0a0a); } .ds-logo::before { content: \"\"; width: 12px; height: 12px; background: var(--accent, #e5484d); display: block; margin-right: 10px; } .ds-nav nav { display: flex; align-items: center; gap: 4px; } .ds-nav nav a { padding: 8px 12px; text-decoration: none; font-size: 14px; color: var(--mute, #666666); border-radius: 8px; } .ds-nav nav a:hover, .ds-nav nav a[aria-current=page] { color: var(--text, #0a0a0a); } .ds-nav nav a.ds-gh { color: var(--text, #0a0a0a); border: 1px solid var(--line-strong, #cfcfd3); padding: 6px 12px; margin-left: 8px; } .ds-nav nav a.ds-gh:hover { border-color: var(--text, #0a0a0a); } .ds-nav a:focus-visible { outline: 2px solid var(--focus, #2563eb); outline-offset: 3px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Plain Frame",
+    "overview": "Everything the site draws is a quiet frame for the one thing allowed to be playful: the pixel-hero counter image. The UI belongs to the Vercel and Linear craft family played straight: a white ground, near-black ink, a single gray for secondary text, 1px hairlines and no shadows. It is light by default and follows the system into dark mode with the same structure, just inverted.\n\nDensity is moderate and calm. Pages are a single 1080px column with left-aligned headlines, generous 72px section rhythm, and controls that read as standard, unremarkable tools so the counter carries all the character. The counter images (rendered server-side with their own palette, plates and \"by kevish.dev\" credit) are content the UI frames, not part of this system; they are shown at whole-pixel scale with `image-rendering: pixelated` and never restyled by the UI.\n\nThe world refuses the retro-arcade, neon, hard-shadow and card-chrome look the earlier draft wore. Pixel character lives inside the counter images; the UI around them stays neutral.",
+    "keyCharacteristics": [
+      "One accent, red, held to the logo mark, favicon, chart and referrer bars, and the selection tint.",
+      "Selection and primary emphasis are carried by ink, not by the accent.",
+      "Flat surfaces separated by 1px hairlines; zero shadows.",
+      "Two radii: 8px for controls, 12px for containers.",
+      "Self-hosted Geist for UI, Geist Mono for ids, code and snippets; tabular numerals everywhere.",
+      "Light by default; dark follows `prefers-color-scheme` with identical structure."
+    ],
+    "rules": [
+      { "name": "The One Signal Rule", "body": "Signal Red marks brand and data, nothing else: the logo square, the favicon and chart bars. If a control needs to look selected, use ink.", "section": "colors" },
+      { "name": "The Ink Selects Rule", "body": "Every selected, pressed, active or featured state is expressed in ink: a filled ink segment, an ink underline, an ink border. Never a tinted accent background.", "section": "colors" },
+      { "name": "The Mono Means Literal Rule", "body": "Geist Mono is used only for text the user copies or types verbatim. It is never a decorative or label face.", "section": "typography" },
+      { "name": "The Sentence Case Rule", "body": "Headings and labels are plain sentence case at normal tracking or tighter. No uppercase tracked labels above headings.", "section": "typography" },
+      { "name": "The Hairline Rule", "body": "Separation is a 1px line in hairline or strong-hairline, never a shadow, glow, blur or offset.", "section": "elevation" }
+    ],
+    "dos": [
+      "**Do** keep the accent on the logo square, favicon and data bars only; express every selected or featured state in ink.",
+      "**Do** use 8px radius on controls and 12px on containers, with 1px borders throughout.",
+      "**Do** separate surfaces with hairlines and at most one tonal step (paper-subtle or panel-recessed).",
+      "**Do** set ids, keys, URLs and snippets in Geist Mono; everything else in Geist.",
+      "**Do** show real counter output at whole-pixel scale with `image-rendering: pixelated`.",
+      "**Do** define every new color as a light and dark pair on `:root` and its `prefers-color-scheme: dark` override.",
+      "**Do** give every interactive element the 2px focus-blue focus-visible outline."
+    ],
+    "donts": [
+      "**Don't** add box shadows, glows, blurs or offset shadows to any UI surface.",
+      "**Don't** fill buttons, chips, tabs or segments with Signal Red.",
+      "**Don't** introduce a second display face or a pixel/arcade font into the UI; pixel character belongs to the counter images.",
+      "**Don't** put uppercase tracked labels or eyebrows above headlines.",
+      "**Don't** restyle, recolor or re-frame the counter images to match the UI.",
+      "**Don't** use em-dashes or en-dashes in visible text."
+    ]
+  }
+}
