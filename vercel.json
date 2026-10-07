@@ -1,21 +1,11 @@
 {
   "rewrites": [
-    {
-      "source": "/c/:id.svg",
-      "destination": "/api/c?id=:id"
-    },
-    {
-      "source": "/c/:id.json",
-      "destination": "/api/c?id=:id&format=json"
-    },
-    {
-      "source": "/count.svg",
-      "destination": "/api/c?id=kevish-dev"
-    },
-    {
-      "source": "/preview.svg",
-      "destination": "/api/preview"
-    }
+    { "source": "/c/:id.badge.svg", "destination": "/api/c?id=:id&format=badge" },
+    { "source": "/c/:id.shields.json", "destination": "/api/c?id=:id&format=shields" },
+    { "source": "/c/:id.svg", "destination": "/api/c?id=:id" },
+    { "source": "/c/:id.json", "destination": "/api/c?id=:id&format=json" },
+    { "source": "/count.svg", "destination": "/api/c?id=kevish-dev" },
+    { "source": "/preview.svg", "destination": "/api/preview" }
   ],
   "cleanUrls": true
 }
