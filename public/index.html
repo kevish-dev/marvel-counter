@@ -45,57 +45,51 @@
   <section id="make" aria-labelledby="h-make">
     <div class="wrap">
       <h2 id="h-make" class="reveal">Make yours in a minute.</h2>
-      <p class="lede reveal">Counts page loads, not unique people. Your count starts at zero.</p>
-      <div class="make reveal">
-        <div class="box panel">
-          <div class="field">
-            <label class="t" for="id">Your id</label>
-            <div class="idbox"><span id="prefix" class="mono">/c/</span><input id="id" maxlength="39" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="your-github-name"></div>
-            <p class="hint">Letters, numbers, - and _. A GitHub username works well.</p>
-            <div class="msg" id="msg" role="status" aria-live="polite"></div>
-            <button class="btn" id="create" type="button" style="margin-top:14px">Create counter</button>
-            <div class="keybox" id="keybox" hidden>
-              <strong>Your edit key. Shown once, save it now.</strong>
-              <div class="keyrow"><code id="keyval" class="mono"></code><button class="btn ghost small" id="keycopy" type="button">Copy</button></div>
-              <p class="hint">It unlocks stats, reset, key rotation and delete for this counter. <a href="/dashboard" id="dashlink">Open the dashboard</a></p>
+      <p class="lede reveal">Pick a category, pick your heroes, choose a style, then create. The preview updates as you go.</p>
+
+      <div class="gen reveal">
+        <div class="gen-preview"><img id="preview" src="/preview.svg?theme=auto" alt="Live preview of your counter" width="860" height="225"></div>
+
+        <div class="step">
+          <div class="step-h"><span class="num">1</span><h3>Choose a category</h3></div>
+          <div class="cats" role="group" aria-label="Category" id="cats"></div>
+        </div>
+
+        <div class="step">
+          <div class="step-h"><span class="num">2</span><h3>Pick your heroes</h3><span class="step-note" id="pick-note">Optional. Nothing picked uses the whole category in order.</span></div>
+          <div class="strip" id="strip" role="group" aria-label="Heroes in this category"></div>
+          <div class="lineup" id="lineup" aria-live="polite"></div>
+        </div>
+
+        <div class="step">
+          <div class="step-h"><span class="num">3</span><h3>Choose a style</h3></div>
+          <div class="opts-row">
+            <div><span class="t" id="theme-l">Background</span>
+              <div class="seg" role="group" aria-labelledby="theme-l" id="theme"><button data-v="dark" aria-pressed="true">Dark</button><button data-v="light" aria-pressed="false">Light</button><button data-v="auto" aria-pressed="false">Match system</button><button data-v="clear" aria-pressed="false">None</button></div></div>
+            <div><span class="t" id="format-l">Number style</span>
+              <div class="seg" role="group" aria-labelledby="format-l" id="format"><button data-v="plain" aria-pressed="true">0001204</button><button data-v="sep" aria-pressed="false">1,204</button><button data-v="compact" aria-pressed="false">1.2K</button></div></div>
+            <div id="digits-field" class="digits"><label class="t" for="digits">Digits: <span id="dv">7</span></label><input type="range" id="digits" min="3" max="9" value="7"></div>
+            <div class="toggles">
+              <label class="check"><input type="checkbox" id="since"> "Since" date</label>
+              <label class="check"><input type="checkbox" id="milestone" checked> Milestone confetti</label>
+              <button class="btn ghost small" id="confetti" type="button">Preview confetti</button>
             </div>
-          </div>
-          <div class="field">
-            <span class="t" id="theme-l">Background</span>
-            <div class="seg" role="group" aria-labelledby="theme-l" id="theme">
-              <button data-v="dark" aria-pressed="true">Dark</button><button data-v="light" aria-pressed="false">Light</button><button data-v="auto" aria-pressed="false">Match system</button><button data-v="clear" aria-pressed="false">None</button>
-            </div>
-          </div>
-          <div class="field">
-            <span class="t" id="format-l">Number style</span>
-            <div class="seg" role="group" aria-labelledby="format-l" id="format">
-              <button data-v="plain" aria-pressed="true">0001204</button><button data-v="sep" aria-pressed="false">1,204</button><button data-v="compact" aria-pressed="false">1.2K</button>
-            </div>
-          </div>
-          <div class="field" id="digits-field">
-            <label class="t" for="digits">Digits: <span id="dv" class="mono">7</span></label>
-            <input type="range" id="digits" min="3" max="9" value="7">
-          </div>
-          <div class="field">
-            <span class="t" id="pack-l">Hero pack</span>
-            <div class="seg" role="group" aria-labelledby="pack-l" id="pack">
-              <button data-v="classic" aria-pressed="true">Classic 7</button><button data-v="marvel" aria-pressed="false">Marvel 11</button><button data-v="dc" aria-pressed="false">DC</button><button data-v="anime" aria-pressed="false">Anime</button><button data-v="retro" aria-pressed="false">Retro</button><button data-v="critters" aria-pressed="false">Critters</button>
-            </div>
-          </div>
-          <div class="field">
-            <span class="t" id="heroes-l">Pick your own order</span>
-            <div id="heroes-pick" role="group" aria-labelledby="heroes-l"></div>
-            <p class="hint">Click heroes in the order you want. Nothing picked uses the pack above.</p>
-          </div>
-          <div class="field">
-            <label class="check"><input type="checkbox" id="since"> Show "since" date under the heroes</label>
-            <label class="check"><input type="checkbox" id="milestone" checked> Confetti at 100, 1,000, 10,000 views and more</label>
-            <button class="btn ghost small" id="confetti" type="button" style="margin-top:10px">Preview the confetti</button>
           </div>
         </div>
 
-        <div class="preview">
-          <div class="view" id="view"><img id="preview" src="/preview.svg?theme=auto" alt="Live preview of your counter" width="860" height="220"></div>
+        <div class="step">
+          <div class="step-h"><span class="num">4</span><h3>Create your counter and copy the snippet</h3></div>
+          <div class="create-row">
+            <div class="idbox"><span id="prefix" class="mono">/c/</span><input id="id" maxlength="39" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="your-github-name" aria-label="Your counter id"></div>
+            <button class="btn" id="create" type="button">Create counter</button>
+          </div>
+          <p class="hint">Letters, numbers, - and _. A GitHub username works well.</p>
+          <div class="msg" id="msg" role="status" aria-live="polite"></div>
+          <div class="keybox" id="keybox" hidden>
+            <strong>Your edit key. Shown once, save it now.</strong>
+            <div class="keyrow"><code id="keyval" class="mono"></code><button class="btn ghost small" id="keycopy" type="button">Copy</button></div>
+            <p class="hint">It unlocks stats, reset, key rotation and delete for this counter. <a href="/dashboard" id="dashlink">Open the dashboard</a></p>
+          </div>
           <div class="tabs" role="tablist" aria-label="Snippet format">
             <button role="tab" aria-selected="true" data-tab="md">Markdown</button>
             <button role="tab" aria-selected="false" data-tab="html">HTML, dark + light</button>
@@ -114,9 +108,10 @@
 
   <section id="heroes" aria-labelledby="h-heroes">
     <div class="wrap">
-      <h2 id="h-heroes" class="reveal">Seven heroes, seven small tricks.</h2>
-      <p class="lede reveal">Each one holds a digit and does one thing on a loop. Pick any order, or let them cycle.</p>
-      <div class="bento reveal" id="bento"></div>
+      <h2 id="h-heroes" class="reveal">Meet the heroes.</h2>
+      <p class="lede reveal">Each one holds a digit and does one small thing on a loop. Click a hero to add it to your counter.</p>
+      <div class="filters" role="tablist" aria-label="Filter heroes by category" id="filters"></div>
+      <div class="bento" id="bento"></div>
     </div>
   </section>
 
@@ -152,48 +147,33 @@
 </footer>
 
 <script>
-const TILES=[
- ["spider-man","Spider-Man","Shoots a web, blinks","t1","100"],
- ["iron-man","Iron Man","Fires the boot jets","t2","200"],
- ["captain-america","Captain America","Shield catches the light","t3","300"],
- ["thor","Thor","Calls down lightning","t4","400"],
- ["hulk","Hulk","Breathes, then rages","t5","500"],
- ["black-panther","Black Panther","Suit lines pulse","t6","600"],
- ["doctor-strange","Doctor Strange","Spins his rings","t7","700"]
-];
-const PACK_TITLES={marvel:"Marvel",dc:"DC",anime:"Anime",retro:"Retro",critters:"Critters"};
-let CATALOG=[["spider-man","Spider-Man","marvel"],["iron-man","Iron Man","marvel"],["captain-america","Captain America","marvel"],["thor","Thor","marvel"],["hulk","Hulk","marvel"],["black-panther","Black Panther","marvel"],["doctor-strange","Doctor Strange","marvel"]];
+const CATS=[["classic","Classic"],["marvel","Marvel"],["dc","DC"],["anime","Anime"],["retro","Retro"],["critters","Critters"]];
+const CLASSIC=["black-panther","captain-america","thor","hulk","doctor-strange","spider-man","iron-man"];
+let CATALOG=[{id:"black-panther",label:"Black Panther",pack:"marvel",trick:"Suit lines pulse"},{id:"captain-america",label:"Captain America",pack:"marvel",trick:"Shield catches the light"},{id:"thor",label:"Thor",pack:"marvel",trick:"Calls down lightning"},{id:"hulk",label:"Hulk",pack:"marvel",trick:"Breathes, then rages"},{id:"doctor-strange",label:"Doctor Strange",pack:"marvel",trick:"Spins his rings"},{id:"spider-man",label:"Spider-Man",pack:"marvel",trick:"Shoots a web, blinks"},{id:"iron-man",label:"Iron Man",pack:"marvel",trick:"Fires the boot jets"}];
 const $=s=>document.querySelector(s);
 const origin=location.origin;
-const state={theme:"dark",digits:7,format:"plain",pack:"classic",heroes:[],since:false,milestone:true,created:null,tab:"md",confetti:false};
+const state={theme:"dark",digits:7,format:"plain",pack:"classic",heroes:[],since:false,milestone:true,created:null,tab:"md",confetti:false,filter:"all"};
 const KEY="herocount.v3";
 const save=()=>{try{const{confetti,...rest}=state;localStorage.setItem(KEY,JSON.stringify(rest))}catch{}};
 const keys=()=>{try{return JSON.parse(localStorage.getItem("herocount.keys")||"{}")}catch{return{}}};
 const saveKey=(id,k)=>{try{const o=keys();o[id]=k;localStorage.setItem("herocount.keys",JSON.stringify(o))}catch{}};
 const pick=(v,list,d)=>list.includes(v)?v:d;
+const PACKS=CATS.map(c=>c[0]);
 const restore=()=>{try{const r=JSON.parse(localStorage.getItem(KEY)||"null");if(!r)return;
   state.theme=pick(r.theme,["dark","light","auto","clear"],"dark");
   state.format=pick(r.format,["plain","sep","compact"],"plain");
-  state.pack=pick(r.pack,["classic","marvel","dc","anime","retro","critters"],"classic");
+  state.pack=pick(r.pack,PACKS,"classic");
+  state.filter=pick(r.filter,["all",...PACKS.slice(1)],"all");
   state.tab=pick(r.tab,["md","html","badge","shields","json"],"md");
   if(r.digits>=3&&r.digits<=9)state.digits=+r.digits;
   if(Array.isArray(r.heroes))state.heroes=r.heroes.filter(h=>typeof h==="string"&&/^[a-z-]{2,20}$/.test(h)).slice(0,9);
   state.since=!!r.since;state.milestone=r.milestone!==false;
   if(typeof r.created==="string"&&/^[a-z0-9][a-z0-9_-]{0,38}$/.test(r.created))state.created=r.created}catch{}};
 
-/* lineup tiles: one hero cropped out of a 3-digit preview with no background plate */
-(function(){const b=$("#bento");
- for(const[id,name,trick,cls,n]of TILES){
-  const t=document.createElement("article");t.className="tile "+cls;
-  const txt=document.createElement("div");txt.className="txt";
-  const h=document.createElement("h3");h.textContent=name;
-  const p=document.createElement("p");p.textContent=trick;
-  txt.append(h,p);
-  const crop=document.createElement("div");crop.className="crop";
-  const img=document.createElement("img");img.loading="lazy";img.decoding="async";
-  img.alt=name+" holding a sign";img.width=380;img.height=220;
-  img.src="/preview.svg?digits=3&theme=clear&heroes="+id+"&n="+n;
-  crop.append(img);t.append(txt,crop);b.append(t)}})();
+const heroesIn=(pack)=>pack==="classic"?CLASSIC.map(id=>CATALOG.find(h=>h.id===id)).filter(Boolean):CATALOG.filter(h=>h.pack===pack);
+const labelOf=(id)=>(CATALOG.find(h=>h.id===id)||{label:id}).label;
+const sprite=(id,cls)=>{const c=document.createElement("div");c.className="crop "+(cls||"");const img=document.createElement("img");img.loading="lazy";img.decoding="async";img.alt="";img.width=380;img.height=225;img.src="/preview.svg?digits=3&theme=clear&n=0&heroes="+id;c.append(img);return c};
+const toggleHero=(id)=>{const j=state.heroes.indexOf(id);if(j>=0)state.heroes.splice(j,1);else if(state.heroes.length<9)state.heroes.push(id);update()};
 
 function qs(theme,extra){const p=new URLSearchParams();
  if(theme!=="dark")p.set("theme",theme);
@@ -206,18 +186,40 @@ function qs(theme,extra){const p=new URLSearchParams();
  for(const[k,v]of Object.entries(extra||{}))p.set(k,v);
  const s=p.toString().replace(/%2C/g,",");return s?"?"+s:""}
 
-function renderChips(){const box=$("#heroes-pick");box.textContent="";
- const groups={};for(const[id,name,pack]of CATALOG)(groups[pack]=groups[pack]||[]).push([id,name]);
- for(const pack of Object.keys(groups)){
-  const label=document.createElement("div");label.className="grp";label.textContent=PACK_TITLES[pack]||pack;box.append(label);
-  const row=document.createElement("div");row.className="chips";
-  for(const[id,name]of groups[pack]){const i=state.heroes.indexOf(id);
-   const b=document.createElement("button");b.className="chip";b.type="button";b.setAttribute("aria-pressed",String(i>=0));
-   if(i>=0){const n=document.createElement("b");n.textContent=String(i+1);b.append(n)}
-   b.append(document.createTextNode(name));
-   b.onclick=()=>{const j=state.heroes.indexOf(id);j>=0?state.heroes.splice(j,1):state.heroes.length<9&&state.heroes.push(id);update()};
-   row.append(b)}
-  box.append(row)}}
+function renderCats(){const box=$("#cats");box.textContent="";
+ for(const[id,name]of CATS){const b=document.createElement("button");b.type="button";b.className="cat";b.setAttribute("aria-pressed",String(state.pack===id));
+  const n=document.createElement("span");n.className="cnt";n.textContent=String(heroesIn(id).length);
+  b.append(document.createTextNode(name),n);b.onclick=()=>{state.pack=id;update();$("#strip").scrollLeft=0};box.append(b)}}
+
+function renderStrip(){const box=$("#strip");box.textContent="";
+ for(const h of heroesIn(state.pack)){const i=state.heroes.indexOf(h.id);
+  const b=document.createElement("button");b.type="button";b.className="hcard";b.setAttribute("aria-pressed",String(i>=0));b.setAttribute("aria-label",(i>=0?"Remove ":"Add ")+h.label);
+  b.append(sprite(h.id,"sm"));const nm=document.createElement("span");nm.className="nm";nm.textContent=h.label;b.append(nm);
+  if(i>=0){const n=document.createElement("b");n.className="badge";n.textContent=String(i+1);b.append(n)}
+  b.onclick=()=>toggleHero(h.id);box.append(b)}}
+
+function renderLineup(){const box=$("#lineup");box.textContent="";
+ if(!state.heroes.length){$("#pick-note").textContent="Optional. Nothing picked uses the whole category in order.";return}
+ $("#pick-note").textContent=state.heroes.length+" of 9 picked. They repeat in this order across the digits.";
+ const lab=document.createElement("span");lab.className="t";lab.textContent="Your lineup";box.append(lab);
+ state.heroes.forEach((id,i)=>{const c=document.createElement("button");c.type="button";c.className="chip";c.setAttribute("aria-label","Remove "+labelOf(id));
+  const n=document.createElement("b");n.textContent=String(i+1);const x=document.createElement("i");x.className="ph ph-x";x.setAttribute("aria-hidden","true");
+  c.append(n,document.createTextNode(labelOf(id)),x);c.onclick=()=>toggleHero(id);box.append(c)});
+ const clr=document.createElement("button");clr.type="button";clr.className="btn ghost small";clr.textContent="Clear";clr.onclick=()=>{state.heroes=[];update()};box.append(clr)}
+
+function renderFilters(){const box=$("#filters");box.textContent="";
+ for(const[id,name]of [["all","All"],...CATS.slice(1)]){const b=document.createElement("button");b.type="button";b.setAttribute("role","tab");b.setAttribute("aria-selected",String(state.filter===id));
+  const n=document.createElement("span");n.className="cnt";n.textContent=String(id==="all"?CATALOG.length:heroesIn(id).length);
+  b.append(document.createTextNode(name),n);b.onclick=()=>{state.filter=id;save();renderFilters();renderShowcase()};box.append(b)}}
+
+function renderShowcase(){const box=$("#bento");box.textContent="";
+ const list=state.filter==="all"?CATALOG:heroesIn(state.filter);
+ for(const h of list){const i=state.heroes.indexOf(h.id);
+  const t=document.createElement("button");t.type="button";t.className="tile";t.setAttribute("aria-pressed",String(i>=0));t.setAttribute("aria-label",(i>=0?"Remove ":"Add ")+h.label+" to your counter");
+  const txt=document.createElement("div");txt.className="txt";const n=document.createElement("h3");n.textContent=h.label;const p=document.createElement("p");p.textContent=h.trick;txt.append(n,p);
+  t.append(sprite(h.id),txt);
+  if(i>=0){const bd=document.createElement("b");bd.className="badge";bd.textContent=String(i+1);t.append(bd)}
+  t.onclick=()=>toggleHero(h.id);box.append(t)}}
 
 function snippet(){const id=state.created;
  if(!id)return null;
@@ -230,23 +232,23 @@ function snippet(){const id=state.created;
 
 function renderCode(){const pre=$("#code"),copy=$("#copy");const s=snippet();
  if(s){pre.textContent=s;pre.style.color="";copy.hidden=false}
- else{pre.textContent="Create your counter and your snippet shows up here.";pre.style.color="var(--mute)";copy.hidden=true}
+ else{pre.textContent="Create your counter above and your snippet shows up here.";pre.style.color="var(--mute)";copy.hidden=true}
  document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.tab===state.tab)))}
 
 function setPressed(sel,v){document.querySelectorAll(sel+" button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.v===v)))}
-function update(){save();renderChips();
+function update(){save();renderCats();renderStrip();renderLineup();renderShowcase();
  $("#preview").src="/preview.svg"+qs(state.theme,state.confetti?{celebrate:"1"}:null);
  $("#dv").textContent=state.digits;$("#digits").value=state.digits;
- $("#digits-field").style.display=state.format==="plain"?"":"none";
+ $("#digits-field").hidden=state.format!=="plain";
  $("#since").checked=state.since;$("#milestone").checked=state.milestone;
- setPressed("#theme",state.theme);setPressed("#format",state.format);setPressed("#pack",state.pack);
+ setPressed("#theme",state.theme);setPressed("#format",state.format);
  renderCode()}
 
-for(const[sel,k]of [["#theme","theme"],["#format","format"],["#pack","pack"]])document.querySelectorAll(sel+" button").forEach(b=>b.onclick=()=>{state[k]=b.dataset.v;if(k==="pack")state.heroes=[];update()});
+for(const[sel,k]of [["#theme","theme"],["#format","format"]])document.querySelectorAll(sel+" button").forEach(b=>b.onclick=()=>{state[k]=b.dataset.v;update()});
 $("#digits").oninput=e=>{state.digits=+e.target.value;update()};
 $("#since").onchange=e=>{state.since=e.target.checked;update()};
 $("#milestone").onchange=e=>{state.milestone=e.target.checked;update()};
-$("#confetti").onclick=()=>{state.confetti=!state.confetti;$("#confetti").textContent=state.confetti?"Stop the confetti":"Preview the confetti";update()};
+$("#confetti").onclick=()=>{state.confetti=!state.confetti;$("#confetti").textContent=state.confetti?"Stop confetti":"Preview confetti";update()};
 document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;update()});
 
 const msg=$("#msg");
@@ -291,8 +293,8 @@ $("#keycopy").onclick=()=>copyText($("#keyval").textContent,null,$("#keycopy"));
 $("#prefix").textContent=location.host+"/c/";
 restore();
 if(state.created){$("#id").value=state.created;setMsg("ok",`Welcome back. "${state.created}" is ready, your snippet is below.`)}
-update();
-fetch("/api/heroes").then(r=>r.json()).then(j=>{CATALOG=j.heroes.map(h=>[h.id,h.label,h.pack]);renderChips()}).catch(()=>{});
+renderFilters();update();
+fetch("/api/heroes").then(r=>r.json()).then(j=>{CATALOG=j.heroes.map(h=>({id:h.id,label:h.label,pack:h.pack,trick:h.trick}));renderFilters();update()}).catch(()=>{});
 
 /* scroll reveal via IntersectionObserver (no scroll listeners) */
 if("IntersectionObserver"in window&&!matchMedia("(prefers-reduced-motion: reduce)").matches){
