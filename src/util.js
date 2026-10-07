@@ -12,7 +12,7 @@ export function normalizeId(raw) {
 
 export function parseOptions(searchParams) {
   const t = searchParams.get("theme");
-  const theme = t === "light" || t === "auto" ? t : "dark";
+  const theme = t === "light" || t === "auto" || t === "clear" ? t : "dark";
   const d = parseInt(searchParams.get("digits") || "7", 10);
   const digits = Number.isFinite(d) ? Math.min(9, Math.max(3, d)) : 7;
   const heroes = (searchParams.get("heroes") || "").split(",").map((x) => x.trim()).filter(Boolean).slice(0, 9);

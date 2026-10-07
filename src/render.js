@@ -263,7 +263,7 @@ export const resolveHero = (n) => { const k = String(n).toLowerCase().trim(); co
 
 const AUTO_CSS = "@media(prefers-color-scheme:light){.bg{fill:#f6f8fa}.bd{stroke:#d0d7de}}";
 
-// opts: theme "dark" | "light" | "auto", digits 3..9, heroes: array of hero ids/aliases (cycled)
+// opts: theme "dark" | "light" | "auto" | "clear" (transparent), digits 3..9, heroes: array of hero ids/aliases (cycled)
 export function renderCounter(count, { theme = "dark", digits = 7, heroes } = {}) {
   digits = Math.min(9, Math.max(3, Math.floor(Number(digits)) || 7));
   const n = Math.max(0, Math.floor(Number(count) || 0));
@@ -285,7 +285,7 @@ export function renderCounter(count, { theme = "dark", digits = 7, heroes } = {}
   }
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" shape-rendering="crispEdges" role="img" aria-label="Visitor count ${n}">` +
     `<title>Visitor count: ${n}</title><style>${CSS}${auto ? AUTO_CSS : ""}</style>` +
-    `<rect width="${W}" height="${H}" rx="14" ${bgAttrs}/><rect x=".5" y=".5" width="${W - 1}" height="${H - 1}" rx="14" fill="none" ${bdAttrs}/>` +
+    (theme === "clear" ? "" : `<rect width="${W}" height="${H}" rx="14" ${bgAttrs}/><rect x=".5" y=".5" width="${W - 1}" height="${H - 1}" rx="14" fill="none" ${bdAttrs}/>`) +
     cells.join("") + `</svg>`;
 }
 

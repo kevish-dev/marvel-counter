@@ -16,6 +16,7 @@ test("digits clamp 3..9 and pad", () => {
   assert.equal((renderCounter(5, { digits: 1 }).match(/data-hero=/g) || []).length, 3);
 });
 test("theme auto adds media query", () => assert.match(renderCounter(1, { theme: "auto" }), /prefers-color-scheme:light/));
+test("theme clear has no background plate", () => { const c = renderCounter(1, { theme: "clear" }); assert.ok(!c.includes('rx="14"')); assert.equal(parseOptions(new URLSearchParams("theme=clear")).theme, "clear"); });
 test("ids: valid, invalid, reserved", () => {
   assert.equal(normalizeId("Kevish-Dev").id, "kevish-dev");
   for (const bad of ["", "-x", "a b", "a/b", "../x", "x".repeat(40), "<script>", "api"]) assert.equal(normalizeId(bad).ok, false, bad);

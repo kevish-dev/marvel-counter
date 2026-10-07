@@ -16,5 +16,6 @@ http.createServer((req, res) => {
   if (u.pathname === "/preview.svg") return previewHandler(req, res);
   if (u.pathname === "/api/create") return createHandler(req, res);
   if (u.pathname === "/") return send(res, 200, "text/html; charset=utf-8", fs.readFileSync(new URL("./public/index.html", import.meta.url)));
+  if (u.pathname.startsWith("/fonts/") && !u.pathname.includes("..")) { try { return send(res, 200, "font/woff2", fs.readFileSync(new URL("./public" + u.pathname, import.meta.url))); } catch {} }
   send(res, 404, "text/plain", "not found");
 }).listen(port, () => console.log(`http://localhost:${port}/`));
