@@ -20,8 +20,8 @@ const mk = async (id) => json(await call(createH, { method: "POST", body: { id }
 test("every hero in every pack renders valid, unique-id art", async () => {
   const ids = new Set();
   for (const h of HERO_CATALOG) { assert.ok(!ids.has(h.id), "dup " + h.id); ids.add(h.id); }
-  assert.equal(HERO_CATALOG.length, 39);
-  assert.deepEqual(Object.fromEntries(Object.entries(PACKS).map(([k, v]) => [k, v.length])), { classic: 7, marvel: 11, dc: 7, anime: 7, retro: 7, critters: 7 });
+  assert.equal(HERO_CATALOG.length, 46);
+  assert.deepEqual(Object.fromEntries(Object.entries(PACKS).map(([k, v]) => [k, v.length])), { classic: 7, marvel: 11, dc: 7, anime: 14, retro: 7, critters: 7 });
   const dom = (await import("node:util")).default; // sanity: parse as XML via regex balance
   for (const h of HERO_CATALOG) {
     const svg = renderCounter(3, { digits: 3, heroes: [h.id] });
@@ -135,7 +135,7 @@ test("admin: unset, wrong token, ok", async () => {
 });
 test("heroes catalog endpoint", async () => {
   const r = json(await call(heroesH));
-  assert.equal(r.heroes.length, 39); assert.deepEqual(r.packs, ["classic", "marvel", "dc", "anime", "retro", "critters"]);
+  assert.equal(r.heroes.length, 46); assert.deepEqual(r.packs, ["classic", "marvel", "dc", "anime", "retro", "critters"]);
 });
 
 test("upstash adapter: parses script replies, falls back to plain commands, builds pipelines", async () => {

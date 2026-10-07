@@ -18,7 +18,7 @@ export const PACKS = { classic, marvel: [...classic, ...MARVEL2], dc: DC, anime:
 const ALL = [...classic, ...MARVEL2, ...DC, ...ANIME, ...RETRO, ...CRITTERS];
 export const HERO_CATALOG = ALL.map((h) => ({ id: h.name, label: h.label, pack: h.pack, trick: h.trick }));
 export const HERO_IDS = ALL.map((h) => h.name);
-const ALIASES = { panther: "black-panther", bp: "black-panther", cap: "captain-america", captain: "captain-america", strange: "doctor-strange", doctor: "doctor-strange", spidey: "spider-man", spiderman: "spider-man", ironman: "iron-man", iron: "iron-man", wanda: "scarlet-witch", scarlet: "scarlet-witch", dp: "deadpool", wizard: "wizard", bunny: "bunny", rabbit: "bunny", bats: "batman", supes: "superman", ww: "wonder-woman", wonderwoman: "wonder-woman", gl: "green-lantern", "the-flash": "flash", sailor: "sailor-moon", sailormoon: "sailor-moon" };
+const ALIASES = { panther: "black-panther", bp: "black-panther", cap: "captain-america", captain: "captain-america", strange: "doctor-strange", doctor: "doctor-strange", spidey: "spider-man", spiderman: "spider-man", ironman: "iron-man", iron: "iron-man", wanda: "scarlet-witch", scarlet: "scarlet-witch", dp: "deadpool", wizard: "wizard", bunny: "bunny", rabbit: "bunny", bats: "batman", supes: "superman", ww: "wonder-woman", wonderwoman: "wonder-woman", gl: "green-lantern", "the-flash": "flash", sailor: "sailor-moon", sailormoon: "sailor-moon", satoru: "gojo", "roronoa-zoro": "zoro", ackerman: "levi", "prince-vegeta": "vegeta" };
 export const resolveHero = (n) => { const k = String(n).toLowerCase().trim(); const id = ALIASES[k] || k; return ALL.find((h) => h.name === id); };
 
 const CSS = `

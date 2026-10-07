@@ -93,4 +93,94 @@ export const ANIME = [
       g.rect(15, 0, 16, 2, fur);
       ctx.over(`<g class="ear">${rects([[7, 0, 2, 3]], fur)}</g><g class="blink">${rects([[7, 6, 3, 2], [14, 6, 3, 2]], fur)}</g>`);
     } },
+  { name: "zoro", label: "Zoro", pack: "anime", trick: "Swords and earrings glint",
+    draw(ctx) {
+      const g = ctx.layer();
+      const hair = "#3fa34d", skin = "#d9a273", blk = "#1b1b22";
+      body(g, { suit: "#f4f4f2", sleeve: "#f4f4f2", glove: skin, legs: blk, boots: blk, lower: "#2f7a3a", skin });
+      g.rect(0, 21, 1, 27, "#f4f4f2"); g.rect(1, 22, 2, 28, blk); g.rect(2, 21, 2, 26, "#c8202f"); g.rect(0, 20, 2, 20, "#e0b13a");
+      headBase(g, skin);
+      g.rect(6, 0, 17, 3, hair); g.rect(6, 4, 6, 5, hair); g.rect(17, 4, 17, 5, hair); g.px(8, 4, hair); g.px(15, 4, hair);
+      g.rect(8, 5, 9, 6, "#1c2330"); g.rect(14, 6, 15, 6, "#1c2330"); g.rect(14, 3, 14, 8, "#8a5a3c");
+      g.rect(10, 9, 13, 9, "#a8664a");
+      g.px(5, 6, "#e0b13a"); g.px(5, 7, "#e0b13a"); g.px(5, 8, "#e0b13a");
+      ctx.over(`<g class="twinkle">${rects([[0, 21], [5, 7]], "#ffffff")}</g><g class="twinkle" style="animation-delay:-.7s">${rects([[2, 22], [5, 6]], "#ffffff")}</g>`);
+    } },
+  { name: "gojo", label: "Gojo", pack: "anime", trick: "Blue and red energy pulse",
+    draw(ctx) {
+      const g = ctx.layer();
+      const hair = "#eef2f7", skin = "#f2d2b6", blk = "#14141a";
+      body(g, { suit: blk, glove: skin, legs: blk, boots: blk, lower: blk, neck: blk, skin });
+      g.rect(8, 10, 15, 12, blk);
+      headBase(g, skin);
+      g.rect(5, 0, 18, 3, hair); g.px(6, -1, hair); g.px(9, 0, hair); g.px(4, 1, hair); g.px(19, 1, hair); g.rect(5, 4, 6, 5, hair); g.rect(17, 4, 18, 5, hair);
+      g.rect(6, 4, 17, 6, blk);
+      g.rect(10, 9, 13, 9, "#c98f6a");
+      ctx.over(`<g class="pulse fast">${rects([[1, 19, 3, 3]], "#4da3ff", ' opacity=".7"')}${rects([[2, 20]], "#dff0ff")}</g>` +
+        `<g class="pulse fast" style="animation-delay:-.5s">${rects([[20, 19, 3, 3]], "#ff4a5a", ' opacity=".7"')}${rects([[21, 20]], "#ffe0e3")}</g>`);
+    } },
+  { name: "levi", label: "Levi", pack: "anime", trick: "Cloak sways, blades flash",
+    draw(ctx) {
+      const cape = ctx.layer("cape"); cape.rect(2, 13, 21, 33, "#2f5a3a"); cape.rect(2, 31, 21, 33, "#244a2f");
+      const g = ctx.layer();
+      const jacket = "#7a5638", skin = "#f0d2b8", hair = "#14141a";
+      body(g, { suit: jacket, glove: skin, legs: "#e9e5dc", boots: "#4a301b", lower: "#4a301b", skin });
+      g.rect(10, 11, 13, 13, "#f4f4f2");
+      g.rect(1, 23, 3, 26, "#8a94a3"); g.rect(20, 23, 22, 26, "#8a94a3");
+      headBase(g, skin);
+      g.rect(6, 0, 17, 2, hair); g.rect(6, 3, 10, 4, hair); g.rect(13, 3, 17, 4, hair); g.rect(6, 5, 6, 6, hair); g.rect(17, 5, 17, 6, hair);
+      g.rect(8, 5, 9, 5, "#3a3f47"); g.rect(14, 5, 15, 5, "#3a3f47"); g.rect(8, 6, 9, 6, "#1c2330"); g.rect(14, 6, 15, 6, "#1c2330");
+      g.rect(10, 9, 13, 9, "#b07a5a");
+      ctx.over(`<g class="glint">${rects([[0, 22], [1, 21], [22, 22], [23, 21]], "#ffffff")}</g>`);
+    } },
+  { name: "vegeta", label: "Vegeta", pack: "anime", trick: "Power aura flares",
+    draw(ctx) {
+      const g = ctx.layer();
+      const blue = "#26408f", white = "#f4f4f2", skin = "#f0c29a", hair = "#14141a";
+      body(g, { suit: blue, sleeve: blue, glove: white, legs: blue, boots: white, lower: blue, skin });
+      g.rect(6, 33, 10, 34, "#e0b13a"); g.rect(13, 33, 17, 34, "#e0b13a");
+      g.rect(6, 12, 17, 13, white);
+      headBase(g, skin);
+      g.rect(6, 0, 17, 3, hair); g.rect(7, -1, 16, -1, hair); g.px(11, 4, hair); g.px(12, 4, hair); g.px(4, 1, hair); g.px(19, 1, hair); g.px(5, 0, hair); g.px(18, 0, hair);
+      g.rect(7, 4, 10, 4, "#1c2330"); g.rect(13, 4, 16, 4, "#1c2330");
+      eyes(g, "#1c2330", 5); g.rect(10, 9, 13, 9, "#a8664a");
+      ctx.over(`<g class="flicker">${rects([[4, 2, 1, 10], [19, 2, 1, 10], [3, 13, 1, 10], [20, 13, 1, 10]], "#7aa8ff", ' opacity=".75"')}</g>`);
+    } },
+  { name: "piccolo", label: "Piccolo", pack: "anime", trick: "Cape sways, antennae twitch",
+    draw(ctx) {
+      const cape = ctx.layer("cape"); cape.rect(2, 12, 21, 33, "#f4f4f2"); cape.rect(2, 31, 21, 33, "#dcdcd8");
+      const g = ctx.layer();
+      const grn = "#5bbf4a", purple = "#5b2f9b";
+      body(g, { suit: purple, sleeve: grn, glove: grn, legs: purple, boots: "#8a5a3c", lower: "#3a7bd5", skin: grn });
+      g.rect(3, 15, 4, 16, "#e88aa0"); g.rect(19, 15, 20, 16, "#e88aa0");
+      headBase(g, grn);
+      g.rect(6, 0, 17, 3, "#f4f4f2"); g.rect(9, 1, 14, 2, purple);
+      g.rect(7, 4, 10, 4, "#3a8f33"); g.rect(13, 4, 16, 4, "#3a8f33");
+      eyes(g, "#1c2330", 5); g.rect(10, 9, 13, 9, "#2f6e27");
+      g.px(5, 5, grn); g.px(4, 4, grn); g.px(18, 5, grn); g.px(19, 4, grn);
+      ctx.over(`<g class="ear">${rects([[9, -1, 1, 1], [8, 0, 1, 1]], grn)}</g><g class="ear" style="animation-delay:-1.3s">${rects([[14, -1, 1, 1], [15, 0, 1, 1]], grn)}</g>`);
+    } },
+  { name: "kakashi", label: "Kakashi", pack: "anime", trick: "Red eye flickers awake",
+    draw(ctx) {
+      const g = ctx.layer();
+      const navy = "#1f2b4a", vest = "#5f7a3a", skin = "#f0d2b8", hair = "#d9dde3";
+      body(g, { suit: vest, sleeve: navy, glove: navy, legs: navy, boots: navy, lower: navy, neck: navy, skin });
+      headBase(g, skin);
+      g.rect(6, 0, 17, 2, hair); g.px(5, 0, hair); g.px(4, 1, hair); g.px(18, 1, hair); g.px(19, 0, hair); g.rect(5, 3, 6, 5, hair); g.rect(17, 3, 18, 4, hair);
+      g.rect(6, 3, 17, 4, "#3a5ad9"); g.rect(9, 3, 14, 4, "#c9d1d9");
+      g.rect(7, 5, 11, 6, "#3a5ad9"); g.rect(14, 5, 15, 6, "#1c2330");
+      g.rect(7, 7, 16, 10, navy); g.rect(8, 10, 15, 10, navy);
+      ctx.over(`<g class="rage">${rects([[8, 5, 2, 2]], "#ff3b30")}</g>`);
+    } },
+  { name: "sasuke", label: "Sasuke", pack: "anime", trick: "Lightning crackles in his hand",
+    draw(ctx) {
+      const g = ctx.layer();
+      const hair = "#1b1b2b", skin = "#f2d8c2", shirt = "#d9dde3";
+      body(g, { suit: shirt, sleeve: shirt, glove: skin, legs: "#2a2a3a", boots: "#2a2a3a", lower: "#6b4ab0", skin });
+      headBase(g, skin);
+      g.rect(6, 0, 17, 3, hair); g.rect(15, 1, 19, 2, hair); g.rect(17, 3, 19, 4, hair); g.rect(5, 3, 6, 9, hair); g.rect(7, 3, 9, 4, hair);
+      eyes(g, "#1c2330", 5); g.rect(10, 9, 13, 9, "#c98f6a");
+      ctx.over(`<g class="rage">${rects([[8, 5, 2, 2], [14, 5, 2, 2]], "#ff3b30")}</g>` +
+        `<g class="bolt">${rects([[21, 18, 2, 1], [20, 19, 2, 1], [21, 20, 2, 1], [19, 21, 3, 1], [20, 22, 1, 2]], "#7df9ff")}</g>`);
+    } },
 ];
