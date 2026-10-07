@@ -1,4 +1,4 @@
-# Pixel hero visitor counter
+# HeroCount: pixel hero visitor counter
 
 A 7-digit visitor counter for a GitHub profile. Seven original pixel-art heroes each hold a sign with one digit,
 with small CSS animations. Served as an SVG from a Vercel function; the count lives in Upstash Redis.
@@ -31,3 +31,13 @@ with small CSS animations. Served as an SVG from a Vercel function; the count li
 ## Notes
 - Counts image loads, not unique people: GitHub proxies images, so visitor IPs are hidden.
 - Responses send `no-store` headers so GitHub's image proxy refetches each time.
+
+## License
+
+HeroCount is **source-available, not open source**. See [LICENSE](LICENSE).
+
+- Using the hosted service (herocount.kevish.dev) and embedding its images: free. The "by kevish.dev" credit is part of every image and must stay visible.
+- Self-hosting or modifying this code: 7-day evaluation, then you need a written license. Ask at https://kevish.dev.
+- The credit must be kept in every use, including licensed ones.
+
+The pixel figures are fan-made tributes and are not affiliated with Marvel.

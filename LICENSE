@@ -1,0 +1,86 @@
+HeroCount Source-Available License, Version 1.0
+
+Copyright (c) 2026 Kevish Sewliya (https://kevish.dev). All rights reserved.
+
+This is NOT an open-source license. The source code is published so you can read
+it, learn from it and evaluate it. Using it beyond the grants below requires a
+written license from the Licensor.
+
+1. DEFINITIONS
+
+   "Software"       The source code, assets and documentation in this repository,
+                    and any copy or derivative work of them.
+   "Licensor"       Kevish Sewliya.
+   "Hosted Service" The HeroCount service operated by the Licensor (currently
+                    herocount.kevish.dev and its subdomains).
+   "Credit"         The "by kevish.dev" mark rendered in every counter image
+                    (including the element marked data-credit="kevish.dev"), the
+                    <desc> credit text inside the image, the X-Made-By response
+                    header, the "by" field in JSON responses, and this license
+                    and the copyright notice above.
+   "Output"         Any image or data the Software produces.
+
+2. USING THE HOSTED SERVICE (no license needed)
+
+   You may use the Hosted Service and embed its images in your README, profile,
+   site or documentation, free of charge. The Credit is part of every image. You
+   must not hide, crop, cover, blur, recolor into invisibility, or otherwise
+   obscure the Credit in the way you display an image.
+
+3. SEVEN-DAY EVALUATION
+
+   For seven (7) days from the moment you first download, clone, copy or deploy
+   the Software, you may run and modify it for evaluation and testing.
+   Evaluation grants no right to offer it to the public as a service.
+
+4. LICENSE REQUIRED AFTER EVALUATION
+
+   When the evaluation period ends you must stop using the Software (including
+   running, hosting, deploying, modifying or distributing it) and delete your
+   copies, unless the Licensor has granted you a written license. Ask at
+   https://kevish.dev. The Licensor may set the terms and price of any license
+   and may decline to grant one.
+
+5. THE CREDIT MUST STAY
+
+   In every use of the Software, under this license or any other, you must keep
+   the Credit intact and visible:
+
+   a. Do not remove, alter, move out of view, disable or make optional any part
+      of the Credit in the Software or its Output.
+   b. Keep this license and the copyright notice in every copy and derivative
+      work.
+   c. A written license from the Licensor may change this section only if it
+      says so expressly.
+
+6. OTHER RESTRICTIONS
+
+   You may not: (a) sublicense, sell or redistribute the Software; (b) offer the
+   Software or a derivative as a hosted or competing service without a written
+   license; (c) use the names "HeroCount" or "Kevish" or the Licensor's logos to
+   suggest endorsement or affiliation; (d) bypass or interfere with any limit,
+   protection or credit in the Software or the Hosted Service.
+
+7. THIRD-PARTY CHARACTERS
+
+   The pixel figures are fan-made tributes inspired by characters owned by third
+   parties. This license grants no rights in those characters or their
+   trademarks. The Software is not affiliated with or endorsed by them. You are
+   responsible for how you use any such likeness.
+
+8. TERMINATION
+
+   This license ends automatically if you breach it. On termination you must stop
+   using the Software and delete your copies. Sections 5 to 9 survive termination.
+
+9. NO WARRANTY, LIMITED LIABILITY
+
+   THE SOFTWARE AND THE HOSTED SERVICE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF
+   ANY KIND, EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY, FITNESS FOR A
+   PARTICULAR PURPOSE AND NON-INFRINGEMENT. TO THE MAXIMUM EXTENT PERMITTED BY
+   LAW, THE LICENSOR IS NOT LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY
+   ARISING FROM OR IN CONNECTION WITH THE SOFTWARE OR ITS USE.
+
+10. CONTACT
+
+   Licensing questions: https://kevish.dev
