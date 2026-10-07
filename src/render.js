@@ -257,22 +257,44 @@ const CSS = `
 @media (prefers-reduced-motion:reduce){*{animation:none!important}.web,.webtip,.bolt,.glint,.blink,.rage,.twinkle{opacity:0}}
 `.replace(/\n/g, "");
 
-export function renderCounter(count, { theme = "dark", digits = 7 } = {}) {
+export const HERO_IDS = HEROES.map((h) => h.name);
+const ALIASES = { panther: "black-panther", bp: "black-panther", cap: "captain-america", captain: "captain-america", strange: "doctor-strange", doctor: "doctor-strange", spidey: "spider-man", spiderman: "spider-man", ironman: "iron-man", iron: "iron-man" };
+export const resolveHero = (n) => { const k = String(n).toLowerCase().trim(); const id = ALIASES[k] || k; return HEROES.find((h) => h.name === id); };
+
+const AUTO_CSS = "@media(prefers-color-scheme:light){.bg{fill:#f6f8fa}.bd{stroke:#d0d7de}}";
+
+// opts: theme "dark" | "light" | "auto", digits 3..9, heroes: array of hero ids/aliases (cycled)
+export function renderCounter(count, { theme = "dark", digits = 7, heroes } = {}) {
+  digits = Math.min(9, Math.max(3, Math.floor(Number(digits)) || 7));
   const n = Math.max(0, Math.floor(Number(count) || 0));
   const s = String(n).padStart(digits, "0").slice(-digits);
   const W = (CW * digits + PAD * 2) * U, H = (CH + PAD * 2) * U;
-  const bg = theme === "light" ? "#f6f8fa" : "#0d1117";
-  const border = theme === "light" ? "#d0d7de" : "#21262d";
+  const cast = (heroes || []).map(resolveHero).filter(Boolean);
+  const lineup = cast.length ? cast : HEROES;
+  const auto = theme === "auto";
+  const light = theme === "light";
+  const bgAttrs = auto ? 'class="bg" fill="#0d1117"' : `fill="${light ? "#f6f8fa" : "#0d1117"}"`;
+  const bdAttrs = auto ? 'class="bd" stroke="#21262d"' : `stroke="${light ? "#d0d7de" : "#21262d"}"`;
   const cells = [];
   for (let i = 0; i < digits; i++) {
-    const hero = HEROES[i % HEROES.length];
+    const hero = lineup[i % lineup.length];
     const layers = [], overs = [];
     hero.draw({ layer: (cls) => { const g = new Grid(cls); layers.push(g); return g; }, over: (x) => overs.push(x) });
     cells.push(`<g transform="translate(${PAD * U + i * CW * U} ${PAD * U}) scale(${U})" data-hero="${hero.name}">` +
-      `<g class="idle" style="animation-delay:${(-i * 0.37).toFixed(2)}s">` + layers.map((l) => l.svg()).join("") + `<g>${signSvg(s[i], theme)}</g>` + overs.join("") + `</g></g>`);
+      `<g class="idle" style="animation-delay:${(-i * 0.37).toFixed(2)}s">` + layers.map((l) => l.svg()).join("") + `<g>${signSvg(s[i], light ? "light" : "dark")}</g>` + overs.join("") + `</g></g>`);
   }
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" shape-rendering="crispEdges" role="img" aria-label="Visitor count ${n}">` +
-    `<title>Visitor count: ${n}</title><style>${CSS}</style>` +
-    `<rect width="${W}" height="${H}" rx="14" fill="${bg}"/><rect x=".5" y=".5" width="${W - 1}" height="${H - 1}" rx="14" fill="none" stroke="${border}"/>` +
+    `<title>Visitor count: ${n}</title><style>${CSS}${auto ? AUTO_CSS : ""}</style>` +
+    `<rect width="${W}" height="${H}" rx="14" ${bgAttrs}/><rect x=".5" y=".5" width="${W - 1}" height="${H - 1}" rx="14" fill="none" ${bdAttrs}/>` +
     cells.join("") + `</svg>`;
+}
+
+// Small SVG shown for unknown ids (no storage write, cacheable).
+export function renderNotFound(id, theme = "dark") {
+  const light = theme === "light";
+  const bg = light ? "#f6f8fa" : "#0d1117", fg = light ? "#1f2328" : "#c9d1d9", sub = light ? "#57606a" : "#8b949e";
+  const safe = String(id).replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 39);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="560" height="120" viewBox="0 0 560 120" role="img" aria-label="HeroCount: id not found">` +
+    `<rect width="560" height="120" rx="14" fill="${bg}"/><text x="280" y="52" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="${fg}">HeroCount: id &quot;${safe}&quot; not found</text>` +
+    `<text x="280" y="82" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="14" fill="${sub}">Create it free at herocount.kevish.dev</text></svg>`;
 }

@@ -1,3 +1,8 @@
 {
-  "rewrites": [{ "source": "/count.svg", "destination": "/api/count" }]
+  "rewrites": [
+    { "source": "/c/:id.svg", "destination": "/api/c?id=:id" },
+    { "source": "/c/:id.json", "destination": "/api/c?id=:id&format=json" },
+    { "source": "/count.svg", "destination": "/api/c?id=kevish-dev" },
+    { "source": "/preview.svg", "destination": "/api/preview" }
+  ]
 }
